@@ -10,17 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isascii(char *str)
+int	ft_isascii(int c)
 {
-	int	i;
-	i = 0;
-
-	while (str[i])
-	{
-		if (str[i] >= 0 && str[i] <= 127)
-			i++;
-		else
-			return (0);
-	}
-	return (1);
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
 }

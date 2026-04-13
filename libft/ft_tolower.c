@@ -17,8 +17,9 @@ int	ft_tolower(int c)
 	return (c);
 }
 
-#include <stdio.h>
+/*#include <stdio.h>
 int main(void)
 {
 	printf("A to lower = %c\n", ft_tolower('A'));
 }
+*/

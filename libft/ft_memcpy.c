@@ -22,7 +22,7 @@ void *ft_memcpy(void *dest, const void *src, size_t n)
 	s = (unsigned char *) src;
 	i = 0;
 	
-	if (!dest && !src)
+	if (!dest || !src)
 		return (0);
 
 	while (i < n)
@@ -34,7 +34,7 @@ void *ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-#include <stdio.h>
+/*#include <stdio.h>
 int main(void)
 {
     char src[] = "Hello World!";
@@ -47,4 +47,4 @@ int main(void)
 
     printf("memcpy : [%s]\n", d1);
     printf("ft_memcpy : [%s]\n", d2);
-}
+}*/

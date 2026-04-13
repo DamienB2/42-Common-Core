@@ -10,17 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isprint(char *str)
+int	ft_isprint(int c)
 {
-	int	i;
-	i = 0;
-
-	while (str[i])
-	{
-		if (str[i] >= 33 && str[i] <= 126)
-			i++;
-		else
-			return (0);
-	}
-	return (1);
+	if (c >= 32 && c <= 126)
+		return (1);
+	return (0);
 }
