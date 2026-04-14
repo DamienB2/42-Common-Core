@@ -6,35 +6,35 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 11:13:48 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/13 13:01:41 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/14 10:32:54 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *s, int c)
 {
 	while (1)
-    {
-        if (*s == (char)c)
-            return ((char *)s);
-        if (*s == '\0')
-            break;
-        s++;
-    }
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		if (*s == '\0')
+			break;
+		s++;
+	}
 	return (0);
 }
 
 /*#include <stdio.h>
-int main(void)
-{
-	char s[] = "salut";
-	char c = 'a';
+  int main(void)
+  {
+  char s[] = "salut";
+  char c = 'a';
 
-	char *result = ft_strchr(s, c);
+  char *result = ft_strchr(s, c);
 
-	if (result)
-		printf("trouve: %s\n", result);
-	else
-		printf("pas trouve.\n");
+  if (result)
+  printf("trouve: %s\n", result);
+  else
+  printf("pas trouve.\n");
 
-	return (0);
-}*/
+  return (0);
+  }*/

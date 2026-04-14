@@ -6,10 +6,11 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:21:02 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/08 12:25:16 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/14 11:56:48 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <string.h>
+#include "libft.h"
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
