@@ -1,0 +1,3 @@
+- Norminette
+- Ajouter les #include dans le .h
+- Makefile
