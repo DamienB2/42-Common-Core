@@ -6,18 +6,20 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 11:13:48 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/14 10:32:54 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 18:32:25 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
 	while (1)
 	{
 		if (*s == (char)c)
-			return ((char *)s);
+			return ((char *) s);
 		if (*s == '\0')
-			break;
+			break ;
 		s++;
 	}
 	return (0);

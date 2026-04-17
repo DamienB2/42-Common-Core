@@ -6,11 +6,12 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 16:22:43 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/13 16:44:09 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 16:00:44 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
+
 int	ft_atoi(const char *nptr)
 {
 	int	i;
@@ -20,7 +21,7 @@ int	ft_atoi(const char *nptr)
 	i = 0;
 	sign = 1;
 	result = 0;
-	while(nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
@@ -52,13 +53,13 @@ int	main(void)
 
 	printf("--- TEST FT_ATOI ---\n\n");
 
-	printf("Test 1 (Espaces simples)  : %d | Vrai : %d\n", ft_atoi(t1), atoi(t1));
-	printf("Test 2 (Espaces blancs)   : %d | Vrai : %d\n", ft_atoi(t2), atoi(t2));
-	printf("Test 3 (Signe +)          : %d | Vrai : %d\n", ft_atoi(t3), atoi(t3));
-	printf("Test 4 (Double signe)     : %d | Vrai : %d\n", ft_atoi(t4), atoi(t4));
-	printf("Test 5 (Texte au milieu)  : %d | Vrai : %d\n", ft_atoi(t5), atoi(t5));
-	printf("Test 6 (Max Int)          : %d | Vrai : %d\n", ft_atoi(t6), atoi(t6));
-	printf("Test 7 (Min Int)          : %d | Vrai : %d\n", ft_atoi(t7), atoi(t7));
+	printf("Test 1 (Espaces simples)  : %d", ft_atoi(t1));
+	printf("Test 2 (Espaces blancs)   : %d", ft_atoi(t2));
+	printf("Test 3 (Signe +)          : %d", ft_atoi(t3));
+	printf("Test 4 (Double signe)     : %d", ft_atoi(t4));
+	printf("Test 5 (Texte au milieu)  : %d", ft_atoi(t5));
+	printf("Test 6 (Max Int)          : %d", ft_atoi(t6));
+	printf("Test 7 (Min Int)          : %d", ft_atoi(t7));
 
 	return (0);
 }*/

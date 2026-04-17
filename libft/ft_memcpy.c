@@ -6,31 +6,28 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 14:03:10 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/10 15:16:16 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 16:37:53 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void *ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	unsigned char	*d;
 	unsigned char	*s;
-	size_t	i;
+	size_t			i;
 
 	d = (unsigned char *) dest;
 	s = (unsigned char *) src;
 	i = 0;
-	
 	if (!dest || !src)
 		return (0);
-
 	while (i < n)
 	{
 		d[i] = s[i];
 		i++;
 	}
-
 	return (dest);
 }
 

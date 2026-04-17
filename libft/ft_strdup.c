@@ -6,19 +6,19 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:34:57 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/14 10:52:01 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 18:32:39 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
+#include "libft.h"
+
 char	*ft_strdup(const char *s)
 {
 	size_t	i;
 	char	*dup;
 
 	i = 0;
-	while(s[i] != '\0')
+	while (s[i] != '\0')
 		i++;
 	dup = malloc(sizeof(char) * (i + 1));
 	if (!dup)

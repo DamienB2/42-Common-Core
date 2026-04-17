@@ -6,20 +6,19 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 13:02:12 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/10 14:14:22 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 15:56:37 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*p;
-	size_t	i;
+	size_t			i;
 
 	i = 0;
 	p = (unsigned char *) s;
-
 	while (i < n)
 	{
 		p[i] = '\0';

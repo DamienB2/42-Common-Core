@@ -6,31 +6,20 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 14:22:52 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/10 15:22:50 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 16:48:34 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+static void	move(unsigned char *d, unsigned char *s, size_t i, size_t n)
 {
-	unsigned char	*d;
-	unsigned char	*s;
-	size_t	i;
-
-	d = (unsigned char *) dest;
-	s = (unsigned char *) src;
-	i = 0;
-
-	if (!dest || !src)
-		return(0);
-
 	if (d < s)
 	{
 		while (i < n)
 		{
-                	d[i] = s[i];
-                	i++;
+			d[i] = s[i];
+			i++;
 		}
 	}
 	else if (d > s)
@@ -42,7 +31,21 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 			d[i] = s[i];
 		}
 	}
-	return (dest);	
+}
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	unsigned char	*d;
+	unsigned char	*s;
+	size_t			i;
+
+	d = (unsigned char *) dest;
+	s = (unsigned char *) src;
+	i = 0;
+	if (!dest || !src)
+		return (0);
+	move(d, s, i, n);
+	return (dest);
 }
 
 /*#include <stdio.h>

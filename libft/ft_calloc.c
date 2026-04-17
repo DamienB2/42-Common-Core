@@ -6,16 +6,17 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 16:44:28 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/13 17:31:34 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 16:01:31 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	char	*tab;
 	size_t	i;
-	size_t totalsize;
+	size_t	totalsize;
 
 	if (nmemb > 0 && size > 0 && (nmemb * size) / size != nmemb)
 		return (NULL);

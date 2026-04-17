@@ -6,19 +6,18 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 16:26:27 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/16 16:26:29 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/17 17:03:30 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
-    write(fd, &c, 1);
+	write(fd, &c, 1);
 }
 
-int main(void)
+/*int main(void)
 {
     ft_putchar_fd('C', 1);
-}
-
+}*/
