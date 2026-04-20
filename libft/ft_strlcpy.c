@@ -6,16 +6,17 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:36:19 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/10 16:54:41 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/20 10:39:17 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t  i = 0;
+	size_t	i;
 
+	i = 0;
 	if (size)
 	{
 		while (i < size - 1)

@@ -6,14 +6,13 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 12:27:56 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/14 14:59:17 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/20 10:43:47 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
-int	is_set(char c, char const *set)
+static int	is_set(char c, char const *set)
 {
 	int	i;
 
@@ -32,17 +31,15 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	start;
 	size_t	end;
 	char	*result;
-	int	i;
+	int		i;
 
 	start = 0;
 	end = ft_strlen(s1);
-
-	if(!s1 || !set)
+	if (!s1 || !set)
 		return (NULL);
-
 	while (s1[start] && is_set(s1[start], set))
 		start++;
-	while(start < end && is_set(s1[end - 1], set))
+	while (start < end && is_set(s1[end - 1], set))
 		end--;
 	result = malloc(sizeof(char) * (end - start) + 1);
 	if (!result)

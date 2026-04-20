@@ -6,21 +6,32 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:56:18 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/14 11:58:43 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/20 10:58:58 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
+
+static void	fill_sub(char const *s, char *sub, unsigned int start, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[start + i] != '\0' && i < len)
+	{
+		sub[i] = s[start + i];
+		i++;
+	}
+	sub[i] = '\0';
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
 	size_t	len_s;
-	size_t	i;
-	
+
 	if (!s)
 		return (NULL);
-
 	len_s = ft_strlen(s);
 	if (start >= len_s)
 	{
@@ -30,21 +41,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		sub[0] = '\0';
 		return (sub);
 	}
-
 	if (len > len_s - start)
 		len = len_s - start;
-
 	sub = malloc(sizeof(char) * (len + 1));
-	if(!sub)
+	if (!sub)
 		return (NULL);
-
-	i = 0;
-	while (s[start + i] != '\0' && i < len)
-	{
-		sub[i] = s[start + i];
-		i++;
-	}
-	sub[i] = '\0';
+	fill_sub(s, sub, start, len);
 	return (sub);
 }
 

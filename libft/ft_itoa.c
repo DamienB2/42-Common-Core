@@ -14,6 +14,8 @@
 
 static int	get_number_size(long n, int number_size)
 {
+	if (n == 0)
+		return (number_size + 1);
 	while (n != 0)
 	{
 		n = n / 10;
@@ -28,6 +30,11 @@ static void	fill_result(char *result, long n, int is_negative, int total_size)
 
 	result[total_size] = '\0';
 	i = total_size - 1;
+	if (n == 0)
+	{
+		result[i] = '0';
+		return ;
+	}
 	while (n != 0)
 	{
 		result[i] = (n % 10) + '0';
@@ -58,7 +65,7 @@ char	*ft_itoa(int n)
 		number_size = 0;
 	}
 	number_size = get_number_size(nbr, number_size);
-	result = malloc(sizeof(char) * number_size + 1);
+	result = malloc(sizeof(char) * (number_size + 1));
 	if (!result)
 		return (NULL);
 	fill_result(result, nbr, is_negative, number_size);

@@ -6,13 +6,15 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 11:10:45 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/13 11:13:10 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/20 13:46:09 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 int	ft_tolower(int c)
 {
-	if(c >= 'A' && c <= 'Z')
+	if (c >= 'A' && c <= 'Z')
 		c += 32;
 	return (c);
 }

@@ -1,4 +1,0 @@
-- Norminette
-- Makefile
-- Check les fichiers
-- Readme

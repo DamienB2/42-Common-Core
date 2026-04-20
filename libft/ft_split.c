@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 15:19:30 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/17 17:45:33 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/20 14:39:26 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,12 @@ static void	*free_tab(char **tab, int i)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**fill_tab(char **tab, char const *s, char c)
 {
-	int		i;
-	int		j;
-	int		start;
-	char	**tab;
+	int	i;
+	int	j;
+	int	start;
 
-	tab = malloc(sizeof(char *) * (count_words(s, c) + 1));
-	if (!s || !tab)
-		return (NULL);
 	i = 0;
 	j = 0;
 	start = -1;
@@ -79,8 +75,9 @@ char	**ft_split(char const *s, char c)
 		else if ((s[i] == c || s[i] == '\0') && start >= 0)
 		{
 			tab[j] = get_word(s, start, i);
-			if (!tab[j++])
+			if (!tab[j])
 				return (free_tab(tab, j - 1));
+			j++;
 			start = -1;
 		}
 		i++;
@@ -89,7 +86,19 @@ char	**ft_split(char const *s, char c)
 	return (tab);
 }
 
-#include <stdio.h>
+char	**ft_split(char const *s, char c)
+{
+	char	**tab;
+
+	if (!s)
+		return (NULL);
+	tab = malloc(sizeof(char *) * (count_words(s, c) + 1));
+	if (!tab)
+		return (NULL);
+	return (fill_tab(tab, s, c));
+}
+
+/*#include <stdio.h>
   int	main(void)
   {
   char	**tab;
@@ -105,4 +114,4 @@ char	**ft_split(char const *s, char c)
   i++;
   }
   return (0);
-  }
+  }*/
