@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:00:16 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/20 10:42:46 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/21 12:07:09 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ char	*ft_strrchr(const char *s, int c)
 {
 	int	i;
 
-	i = 0;
-	while (s[i] != '\0')
-		i++;
+	i = ft_strlen(s);
 	s += i;
 	while (i >= 0)
 	{
