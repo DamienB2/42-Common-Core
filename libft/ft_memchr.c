@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:05:02 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/21 10:13:17 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/22 14:59:28 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 		str++;
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
 /*#include <stdio.h>

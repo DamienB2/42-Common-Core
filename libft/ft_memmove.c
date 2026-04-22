@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 14:22:52 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/17 16:48:34 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/22 15:00:09 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	s = (unsigned char *) src;
 	i = 0;
 	if (!dest && !src)
-		return (0);
+		return (NULL);
 	move(d, s, i, n);
 	return (dest);
 }

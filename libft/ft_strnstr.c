@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:12:26 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/20 10:41:34 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/22 15:02:06 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		}
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
 /*#include <stdio.h>

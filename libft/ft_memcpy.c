@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 14:03:10 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/17 16:37:53 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/22 15:00:03 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	s = (unsigned char *) src;
 	i = 0;
 	if (!dest && !src)
-		return (0);
+		return (NULL);
 	while (i < n)
 	{
 		d[i] = s[i];

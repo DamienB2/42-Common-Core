@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 11:13:48 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/17 18:32:25 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/22 15:01:01 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strchr(const char *s, int c)
 			break ;
 		s++;
 	}
-	return (0);
+	return (NULL);
 }
 
 /*#include <stdio.h>
