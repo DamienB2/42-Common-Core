@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 16:44:28 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/17 16:01:31 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/24 11:28:12 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	size_t	i;
 	size_t	totalsize;
 
-	if (nmemb > 0 && size > 0 && (nmemb * size) / size != nmemb)
+	if (size != 0 && (nmemb * size) / size != nmemb)
 		return (NULL);
 	totalsize = (size * nmemb);
 	tab = malloc(totalsize);
