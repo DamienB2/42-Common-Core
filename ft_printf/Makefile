@@ -1,4 +1,3 @@
-#Revoir le makefile car il peut etre mauvais
 NAME        = libftprintf.a
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror
@@ -7,7 +6,7 @@ CFLAGS      = -Wall -Wextra -Werror
 LIBFT_PATH  = ../libft
 LIBFT       = $(LIBFT_PATH)/libft.a
 
-SRCS        = ft_printf.c utils.c
+SRCS        = ft_printf.c utils.c convert.c
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)
