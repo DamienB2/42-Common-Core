@@ -2,8 +2,7 @@ NAME        = libftprintf.a
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror
 
-# Chemins vers la libft
-LIBFT_PATH  = ../libft
+LIBFT_PATH  = ./libft
 LIBFT       = $(LIBFT_PATH)/libft.a
 
 SRCS        = ft_printf.c utils.c convert.c
@@ -31,4 +30,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re $(LIBFT)
+.PHONY: all clean fclean re
