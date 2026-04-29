@@ -6,13 +6,13 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:41:34 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/28 16:08:40 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/04/29 11:14:21 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	process(int count, const char *pos, va_list arg)
+static int	process(int count, const char *pos, va_list arg)
 {
 	if (*pos == 'c')
 		count += ft_putchar(va_arg(arg, int));
