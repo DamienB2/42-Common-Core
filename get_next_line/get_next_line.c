@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:17:05 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/04 15:35:49 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/04 17:14:06 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*read_file_and_stash(int fd, char *stash)
 			break ;
 		stash = add_to_stash(buf, stash);
 	}
+	free(buf);
 	return (stash);
 }
 
@@ -96,10 +97,11 @@ char	*get_next_line(int fd)
 	if (!stash)
 		return (NULL);
 	line = create_line(stash, &stash);
+	// le leak serait ici avec la variable statique stash
 	return (line);
 }
 
-/*#include <fcntl.h>
+#include <fcntl.h>
 #include <stdio.h>
 
 int	main(void)
@@ -116,7 +118,6 @@ int	main(void)
 		printf("%s", line);
 		free(line);
 	}
-
 	close(fd);
 	return (0);
-}*/
+}
