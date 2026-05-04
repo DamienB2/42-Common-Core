@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:17:21 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/04 15:13:03 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/04 15:36:08 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res[i + j] = '\0';
 	return (res);
 }
-
 
 static char	*create_empty_string(void)
 {
@@ -75,7 +74,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	substr[i] = '\0';
 	return (substr);
 }
-
 
 size_t	ft_strlen(const char *s)
 {

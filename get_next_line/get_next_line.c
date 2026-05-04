@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:17:05 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/04 15:13:28 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/04 15:35:49 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-#include <fcntl.h>
+/*#include <fcntl.h>
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	int		fd;
 	char	*line;
@@ -119,4 +119,4 @@ int main(void)
 
 	close(fd);
 	return (0);
-}
+}*/
