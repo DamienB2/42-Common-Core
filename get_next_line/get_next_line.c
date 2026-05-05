@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:17:05 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/04 17:14:06 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/05 19:03:21 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ char	*ft_strchr(const char *s, int c)
 
 char	*add_to_stash(char *buf, char *stash)
 {
-	if (!stash)
-		stash = "";
+	char	*temp_stash;
+
+	temp_stash = stash;
 	stash = ft_strjoin(stash, buf);
+	free(temp_stash);
 	return (stash);
 }
 
@@ -42,12 +44,15 @@ char	*read_file_and_stash(int fd, char *stash)
 	if (!buf)
 		return (NULL);
 	nb = 1;
+	if (!stash)
+		stash = ft_strdup("");
 	while ((!stash || !ft_strchr(stash, '\n')) && nb != 0)
 	{
 		nb = read(fd, buf, BUFFER_SIZE);
 		if (nb == -1)
 		{
 			free(buf);
+			free(stash);
 			return (NULL);
 		}
 		buf[nb] = '\0';
@@ -90,14 +95,24 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*stash;
+	char		*temp_stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	temp_stash = stash;
 	stash = read_file_and_stash(fd, stash);
 	if (!stash)
+	{
+		free(temp_stash);
 		return (NULL);
+	}
+	if (ft_strlen(stash) == 0)
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
 	line = create_line(stash, &stash);
-	// le leak serait ici avec la variable statique stash
 	return (line);
 }
 
