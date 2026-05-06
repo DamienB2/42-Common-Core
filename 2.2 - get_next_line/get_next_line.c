@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:17:05 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/06 10:22:40 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/06 12:55:39 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,12 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*stash;
-	char		*temp_stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	temp_stash = stash;
 	stash = read_file_and_stash(fd, stash);
 	if (!stash)
-	{
-		free(temp_stash);
 		return (NULL);
-	}
 	if (ft_strlen(stash) == 0)
 	{
 		free(stash);
@@ -121,8 +116,8 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	int		fd;
 	char	*line;
+	int		fd;
 
 	fd = open("file.txt", O_RDONLY);
 	if (fd == -1)
