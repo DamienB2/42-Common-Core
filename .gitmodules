@@ -1,0 +1,3 @@
+[submodule "42-piscine"]
+	path = 42-piscine
+	url = https://github.com/DamienB2/42-piscine.git
