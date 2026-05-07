@@ -6,15 +6,15 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:45:37 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/28 15:54:47 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/07 13:56:38 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "../libft/libft.h"
 # include <stdarg.h>
+# include <unistd.h>
 
 //ft_printf.c
 int		ft_printf(const char *format, ...);

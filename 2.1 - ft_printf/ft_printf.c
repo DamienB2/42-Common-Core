@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:41:34 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/29 11:14:21 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/07 13:58:23 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_printf(const char *format, ...)
 		}
 		else
 		{
-			ft_putchar_fd(*pos, 1);
+			ft_putchar(*pos);
 			pos++;
 			count++;
 		}

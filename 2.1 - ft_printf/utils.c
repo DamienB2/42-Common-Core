@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 11:21:05 by dbaise            #+#    #+#             */
-/*   Updated: 2026/04/28 15:54:10 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/07 14:01:09 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,14 @@ int	ft_putchar(char c)
 
 int	ft_putstr(char *s)
 {
+	int	i;
+
+	i = 0;
 	if (!s)
 		return (write(1, "(null)", 6));
-	return (write(1, s, ft_strlen(s)));
+	while (s[i])
+		i++;
+	return (write(1, s, i));
 }
 
 int	ft_putnbr(int n)

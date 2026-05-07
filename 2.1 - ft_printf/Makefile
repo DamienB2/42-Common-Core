@@ -1,32 +1,22 @@
 NAME        = libftprintf.a
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror
-
-LIBFT_PATH  = ./libft
-LIBFT       = $(LIBFT_PATH)/libft.a
-
 SRCS        = ft_printf.c utils.c convert.c
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(LIBFT):
-	make -C $(LIBFT_PATH)
-
-$(NAME): $(LIBFT) $(OBJS)
-	cp $(LIBFT) $(NAME)
+$(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I. -I$(LIBFT_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) -I. -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	make -C $(LIBFT_PATH) clean
 
 fclean: clean
 	rm -f $(NAME)
-	make -C $(LIBFT_PATH) fclean
 
 re: fclean all
 
