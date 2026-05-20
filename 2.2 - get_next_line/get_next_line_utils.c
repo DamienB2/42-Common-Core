@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:17:21 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/04 15:36:08 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/05/20 17:46:37 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	substr = (char *)malloc(sizeof(char) * (real_len + 1));
 	if (!substr)
 		return (NULL);
-	i = -1;
-	while (++i < real_len)
+	i = 0;
+	while (i < real_len)
+	{
 		substr[i] = s[start + i];
+		i++;
+	}
 	substr[i] = '\0';
 	return (substr);
 }
