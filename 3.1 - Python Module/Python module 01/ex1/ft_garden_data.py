@@ -7,10 +7,14 @@ class Plant:
     def show(self) -> None:
         print(f"{self.name}: {self.height}cm, {self.age} days old")
 
-def community_garden() -> None:
+def main() -> None:
+    print("=== Garden Plant Registry ===")
     Rose = Plant("Rose", 25, 30)
-    Sunflower = Plant("Rose", 25, 30)
-    Rose = Plant("Rose", 25, 30)
+    Sunflower = Plant("Sunflower", 80, 45)
+    Cactus = Plant("Cactus", 15, 120)
+    Rose.show()
+    Sunflower.show()
+    Cactus.show()
 
 if __name__ == "__main__":
-
+    main()
