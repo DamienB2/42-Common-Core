@@ -13,5 +13,6 @@ def main() -> None:
     print()
     print("=== End of Program")
 
+
 if __name__ == "__main__":
-   main()
+    main()
