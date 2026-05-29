@@ -10,12 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//https://push-swap42-visualizer.vercel.app/
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-// retirer checker et tester
-
 #include "push_swap.h"
 
 int	fill_stack_2(t_stack *stack_a, char **tab)
@@ -127,6 +121,7 @@ int	main(int argc, char *argv[])
 	stack_b.numbers = malloc(sizeof(t_num) * stack_a.actual_size);
 	if (!stack_b.numbers)
 		return (free_and_display_error(&stack_a));
+	small_sort(&stack_a, &stack_b);
 	strat_selector(&stack_a, &stack_b);
 	if (stack_a.ops_count.bench == 1)
 		display_all(&stack_a);

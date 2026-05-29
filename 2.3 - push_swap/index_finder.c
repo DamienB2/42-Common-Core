@@ -12,7 +12,6 @@
 
 #include "push_swap.h"
 
-// Index numbers
 void	sort_tab(int *tab, int size)
 {
 	int	i;

@@ -19,13 +19,15 @@ void	radix_sort(t_stack *stack_a, t_stack *stack_b)
 	int	max;
 
 	bit = 0;
+	if (stack_a->actual_size <= SIMPLE_SCALE)
+		insertion_sort(stack_a, stack_b);
 	while (!is_stack_sort(stack_a))
 	{
 		i = 0;
 		max = stack_a->actual_size;
-		while (i < max)
+		while (i < max && !is_stack_sort(stack_a))
 		{
-			if ((stack_a->numbers->index >> bit) & 1)
+			if ((stack_a->numbers[0].index >> bit) & 1)
 				handle_rotate_up(stack_a, stack_b, "ra");
 			else
 				handle_push(stack_a, stack_b, "pb");

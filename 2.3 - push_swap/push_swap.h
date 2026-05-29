@@ -13,6 +13,10 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# ifndef SIMPLE_SCALE
+#  define SIMPLE_SCALE 10
+# endif
+
 # include <stdlib.h>
 # include "libft/libft.h"
 
@@ -66,6 +70,7 @@ int		ft_sqrt(int nb);
 int		is_valid_int(char *str);
 int		is_stack_sort(t_stack *stack_a);
 void	init_op_count(t_count *ops);
+void	small_sort(t_stack *stack_a, t_stack *stack_b);
 
 // utils_operations.c
 void	swap(t_stack *stack);
@@ -91,7 +96,6 @@ void	radix_sort(t_stack *stack_a, t_stack *stack_b);
 
 // flag_parser.c
 int		flag_parser(char *str, t_count *ops_count);
-int		is_number(char *s);
 int		validate_args(int argc, char **argv, t_count *ops_count);
 
 // index
@@ -104,6 +108,4 @@ void	strat_selector(t_stack *stack_a, t_stack *stack_b);
 //bench.c
 void	display_all(t_stack *stack_a);
 
-//mini
-void	mini_sort3(t_stack *stack_a, t_stack *stack_b);
 #endif

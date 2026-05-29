@@ -61,6 +61,20 @@ int	is_stack_sort(t_stack *stack_a)
 	return (1);
 }
 
+void	small_sort(t_stack *stack_a, t_stack *stack_b)
+{
+	if (is_stack_sort(stack_a))
+		return ;
+	if (stack_a->numbers[0].index > stack_a->numbers[1].index
+		&& stack_a->numbers[0].index > stack_a->numbers[2].index)
+		handle_rotate_up(stack_a, stack_b, "ra");
+	else if (stack_a->numbers[1].index > stack_a->numbers[0].index
+		&& stack_a->numbers[1].index > stack_a->numbers[2].index)
+		handle_rotate_down(stack_a, stack_b, "rra");
+	if (stack_a->numbers[0].index > stack_a->numbers[1].index)
+		handle_swap(stack_a, stack_b, "sa");
+}
+
 void	init_op_count(t_count *ops)
 {
 	ops->sa = 0;

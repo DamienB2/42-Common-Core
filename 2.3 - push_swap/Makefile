@@ -17,8 +17,7 @@ SRC = \
 	chunk_sort.c \
 	radix_sort.c \
 	strat_selector.c \
-	bench.c \
-	mini_sort.c
+	bench.c
 
 OBJ = $(SRC:.c=.o)
 

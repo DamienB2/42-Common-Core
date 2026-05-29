@@ -60,7 +60,9 @@ void	chunk_sort(t_stack *stack_a, t_stack *stack_b)
 	chunck[0] = 0;
 	chunck[1] = chunk_size;
 	i = 0;
-	while (i < max || !is_stack_sort(stack_a))
+	if (is_stack_sort(stack_a))
+		return ;
+	while (i < max)
 	{
 		if (i >= chunck[1])
 		{
