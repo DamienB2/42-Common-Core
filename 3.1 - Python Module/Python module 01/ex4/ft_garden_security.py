@@ -7,7 +7,7 @@ class Plant:
         self._age = age
         self._rate = rate
 
-    def set_height(self, height: int) -> None:
+    def set_height(self, height: float) -> None:
         if height > 0:
             self._height = height
         else:
@@ -15,7 +15,7 @@ class Plant:
             print("Height update rejected")
 
     def get_height(self) -> None:
-        print(f"Height updated: {self._height}cm")
+        print(f"Height updated: {int(self._height)}cm")
 
     def set_age(self, age: int) -> None:
         if age > 0:
@@ -25,7 +25,7 @@ class Plant:
             print("Age update rejected")
 
     def get_age(self) -> None:
-        print(f"Age updated: {self._height}cm")
+        print(f"Age updated: {self._age} days")
 
     def show(self) -> str:
         return f"{self._name}: {self._height}cm, {self._age} days old"
@@ -42,7 +42,7 @@ def main() -> None:
     rose = Plant("Rose", 15.0, 10)
     print("Plant created: " + rose.show())
     print()
-    rose.set_height(25)
+    rose.set_height(25.0)
     rose.get_height()
     rose.set_age(30)
     rose.get_age()
