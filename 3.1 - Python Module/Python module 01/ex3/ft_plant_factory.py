@@ -31,6 +31,5 @@ def main() -> None:
     print("Created: " + fern.show())
 
 
-
 if __name__ == "__main__":
     main()
