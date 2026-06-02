@@ -102,7 +102,7 @@ class Vegetable(Plant):
             + f"\n Nutritional value: {self._nutritional_value}"
         )
 
-    def grow(self, time: int) -> None:
+    def grow(self, time: int = 1) -> None:
         print(f"[make {self._name} grow and age for {time} days]")
         for i in range(time):
             super().grow()

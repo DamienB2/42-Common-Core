@@ -24,7 +24,7 @@ class Plant:
     def __init__(
         self, name: str, height: float, age: int, rate: float = 0.5
     ) -> None:
-        self.__stats = Plant._Statistics()
+        self._stats = Plant._Statistics()
         self._name = name
         self._height = height
         self._age = age
@@ -58,19 +58,19 @@ class Plant:
         return self._name
 
     def get_statistics(self) -> str:
-        return self.__stats.display()
+        return self._stats.display()
 
     def show(self) -> str:
-        self.__stats.inc_show()
+        self._stats.inc_show()
         return f"{self._name}: {self._height}cm, {self._age} days old"
 
     def grow(self) -> None:
         self._height = round(self._height + self._rate, 1)
-        self.__stats.inc_grow()
+        self._stats.inc_grow()
 
     def age(self) -> None:
         self._age += 1
-        self.__stats.inc_age()
+        self._stats.inc_age()
 
     @staticmethod
     def is_older_than_year(age: int) -> bool:
@@ -125,9 +125,8 @@ class Seed(Flower):
         self._age += time
         self._seed_number += time * self._seed_rate
         self._bloom = True
-
-        self._Plant__stats.inc_grow()
-        self._Plant__stats.inc_age()
+        self._stats.inc_grow()
+        self._stats.inc_age()
 
 
 class Tree(Plant):
@@ -146,19 +145,15 @@ class Tree(Plant):
             )
 
     def __init__(
-        self,
-        name: str,
-        height: float,
-        age: int,
-        trunk_diameter: float,
-        rate: float = 0.5
+        self, name: str, height: float, age: int,
+        trunk_diameter: float, rate: float = 0.5
     ) -> None:
         super().__init__(name, height, age, rate)
         self._trunk_diameter = trunk_diameter
-        self._Plant__stats = Tree._TreeStatistics()
+        self._Plant_stats = Tree._TreeStatistics()
 
     def produce_shade(self) -> None:
-        self._Plant__stats.inc_produce_shade()
+        self._Plant_stats.inc_produce_shade()
         print(f"[asking the {self._name.lower()} to produce shade]")
         print(
             f"Tree {self._name} now produces a shade of {self._height}cm long "
