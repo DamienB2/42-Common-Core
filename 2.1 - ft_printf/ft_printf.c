@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:41:34 by dbaise            #+#    #+#             */
-/*   Updated: 2026/05/07 13:58:23 by dbaise           ###   ########.fr       */
+/*   Updated: 2026/06/08 14:09:41 by dbaise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,21 @@ static int	process(int count, const char *pos, va_list arg)
 	return (count);
 }
 
+static void	handle_char(const char **pos, int *count)
+{
+	ft_putchar(**pos);
+	(*pos)++;
+	(*count)++;
+}
+
 int	ft_printf(const char *format, ...)
 {
 	int			count;
 	const char	*pos;
 	va_list		arg;
 
+	if (!format)
+		return (-1);
 	va_start(arg, format);
 	pos = format;
 	count = 0;
@@ -52,12 +61,14 @@ int	ft_printf(const char *format, ...)
 				pos++;
 		}
 		else
-		{
-			ft_putchar(*pos);
-			pos++;
-			count++;
-		}
+			handle_char(&pos, &count);
 	}
 	va_end(arg);
 	return (count);
+}
+
+int main(void)
+{
+    ft_printf("Hello, %a!\n", "world");
+    return (0);
 }
