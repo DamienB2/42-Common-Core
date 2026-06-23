@@ -1,24 +1,32 @@
 import sys
 
-def save() -> None:
-    name = input('Enter new file name (or empty):')
-    if name
+def save(lignes: list) -> None:
+    name = input('Enter new file name (or empty): ')
+    if name == "":
+        print("Not saving data.")
+    else:
+        print(f"Saving data to '{name}'")
+        f = open(name, "w")
+        for ligne in lignes:
+            f.write(ligne + "\n")
+        f.close()
+        print(f"Data saved in file '{name}'.")
+
 
 
 def main() -> None:
     if len(sys.argv) > 1:
         file = sys.argv[1]
-        print("=== Cyber Archives Recovery ===")
+        print("=== Cyber Archives Recovery & Preservation ===")
         print(f"Accessing file '{file}'")
         try:
             f = open(file)
 
-            print(f"---\n\n{f.read()}\n\n---")
-
-            f.seek(0)
-            lignes = [ligne.strip() + '#' for ligne in f.readlines()] 
-
+            content = f.read()
+            print(f"---\n\n{content}\n\n---")
+            lignes = [ligne.strip() + '#' for ligne in content.split('\n') if ligne.strip() != ""]
             f.close()
+
             print(f"File '{file}' closed.")
             print()
 
@@ -30,6 +38,8 @@ def main() -> None:
 
             print("\n---")
 
+            save(lignes)
+
 
         except FileNotFoundError as e:
             print(f"Error opening file '{file}': {e}")
@@ -37,7 +47,7 @@ def main() -> None:
             print(f"Error opening file '{file}': {e}")
 
     else:
-        print("Usage: ft_ancient_text.py <file>")
+        print("Usage: ft_archive_creation.py <file>")
 
 
 if __name__ == "__main__":
