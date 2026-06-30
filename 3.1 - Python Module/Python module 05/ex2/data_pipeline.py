@@ -28,6 +28,7 @@ class DataProcessor(ABC):
 
 class ExportPlugin(Protocol):
     def process_output(self, data: list[tuple[int, str]]) -> None:
+        ...
 
 class DataStream():
     def __init__(self) -> None:
@@ -59,7 +60,7 @@ class DataStream():
             print("No processor found, no data")
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
-        test = test
+        
 
 
 class NumericProcessor(DataProcessor):
