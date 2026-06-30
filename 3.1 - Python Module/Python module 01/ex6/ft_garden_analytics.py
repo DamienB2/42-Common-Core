@@ -150,10 +150,10 @@ class Tree(Plant):
     ) -> None:
         super().__init__(name, height, age, rate)
         self._trunk_diameter = trunk_diameter
-        self._Plant_stats = Tree._TreeStatistics()
+        self._stats = Tree._TreeStatistics()
 
     def produce_shade(self) -> None:
-        self._Plant_stats.inc_produce_shade()
+        self._stats.inc_produce_shade()
         print(f"[asking the {self._name.lower()} to produce shade]")
         print(
             f"Tree {self._name} now produces a shade of {self._height}cm long "
