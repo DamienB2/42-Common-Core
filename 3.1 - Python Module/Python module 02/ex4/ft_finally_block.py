@@ -9,9 +9,9 @@ class PlantError(GardenError):
 
 
 def water_plant(plant_name: str) -> None:
-    if not plant_name.isupper():
+    if plant_name.capitalize() != plant_name:
         raise PlantError(f"Invalid plant name to water: '{plant_name}'")
-    print(f"Watering {plant_name.capitalize()}: [OK]")
+    print(f"Watering {plant_name}: [OK]")
 
 
 def test_watering_system() -> None:
@@ -21,23 +21,22 @@ def test_watering_system() -> None:
     try:
         print("Testing valid plants...")
         print("Opening watering system")
-        water_plant("TOMATO")
-        water_plant("LETTUCE")
-        water_plant("CARROTS")
+        water_plant("Tomato")
+        water_plant("Lettuce")
+        water_plant("Carrots")
         print("Closing watering system")
         print()
 
         print("Testing invalid plants...")
         print("Opening watering system")
-        water_plant("TOMATO")
+        water_plant("Tomato")
         water_plant("lettuce")
-        water_plant("CARROTS")
+        water_plant("Carrots")
         print("Closing watering system")
     except PlantError as e:
         print(f"Caught PlantError: {e}")
         print(".. ending tests and returning to main")
         print("Closing watering system")
-        return
     finally:
         print()
         print("Cleanup always happens, even with errors!")
