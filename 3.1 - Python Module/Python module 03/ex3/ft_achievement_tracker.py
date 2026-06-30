@@ -25,7 +25,7 @@ def main() -> None:
     bob = gen_player_achievement()
     print(f"Player Bob: {bob}")
     charlie = gen_player_achievement()
-    print(f"Player Chralie: {charlie}")
+    print(f"Player Charlie: {charlie}")
     dylan = gen_player_achievement()
     print(f"Player Dylan: {dylan}")
     print()

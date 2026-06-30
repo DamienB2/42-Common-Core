@@ -2,6 +2,9 @@ import sys
 
 
 def display_stats(score_list: list[int]) -> None:
+    if not score_list:
+        return
+
     total_player = len(score_list)
     total_score = sum(score_list[0:])
     max_score = max(score_list)

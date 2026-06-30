@@ -1,11 +1,6 @@
 import random
 
 
-def get_capitalized(player_list: list) -> list:
-    for player in player_list:
-            print(player)
-
-
 def main() -> None:
     print("=== Game Data Alchemist ===")
     print()
