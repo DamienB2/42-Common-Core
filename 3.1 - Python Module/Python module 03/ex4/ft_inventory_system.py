@@ -1,38 +1,43 @@
 import sys
 
 
-def fill_inventory(inventory: dict) -> None:
+def fill_inventory(inventory: dict[str, int]) -> None:
     for item in sys.argv[1:]:
-        if ":" in item:
-            name, quantity = item.split(":")
-            try:
-                quantity = int(quantity)
-                if name in inventory:
-                    print(f"Redundant item '{name}' - discarding")
-                else:
-                    inventory[name] = quantity
-            except ValueError as e:
-                print(f"Quantity error for '{name}': {e}")
-        else:
+        parts = item.split(":")
+        if len(parts) != 2:
             print(f"Error - invalid parameter '{item}'")
+            continue
+
+        name, quantity_str = parts
+        try:
+            quantity = int(quantity_str)
+        except ValueError as e:
+            print(f"Quantity error for '{name}': {e}")
+            continue
+
+        if name in inventory:
+            print(f"Redundant item '{name}' - discarding")
+        else:
+            inventory[name] = quantity
 
 
 def main() -> None:
     print("=== Inventory System Analysis ===")
 
-    inventory = {}
+    inventory: dict[str, int] = {}
     fill_inventory(inventory)
     if inventory:
         total_quantity = sum(inventory.values())
 
+        item_count = len(inventory.keys())
         print(f"Got inventory: {inventory}")
-        print(f"item list: {list(inventory.keys())}")
-        print(f"Total quantity of the {len(inventory.keys())} items: {total_quantity}")
+        print(f"Item list: {list(inventory.keys())}")
+        print(f"Total quantity of the {item_count} items: {total_quantity}")
 
         for name, quantity in inventory.items():
-            print(f"Item {name} represents {round((quantity / total_quantity) * 100, 1)}%")
+            percentage = round((quantity / total_quantity) * 100, 1)
+            print(f"Item {name} represents {percentage}%")
 
-    
         items_list = list(inventory.items())
         first_item, first_quantity = items_list[0]
 

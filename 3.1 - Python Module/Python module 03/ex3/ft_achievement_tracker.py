@@ -2,15 +2,24 @@ import random
 
 
 def gen_player_achievement() -> set:
-    achievements_list = ['Crafting Genius', 'Strategist', 'World Savior',
-                   'Speed Runner', 'Survivor', 'Master Explorer',
-                   'Treasure Hunter', 'Unstoppable', 'First Steps',
-                   'Collector Supreme', 'Untouchable', 'Sharp Mind',
-                   'Boss Slayer']
+    achievements_list = [
+        "Crafting Genius",
+        "Strategist",
+        "World Savior",
+        "Speed Runner",
+        "Survivor",
+        "Master Explorer",
+        "Treasure Hunter",
+        "Unstoppable",
+        "First Steps",
+        "Collector Supreme",
+        "Untouchable",
+        "Sharp Mind",
+        "Boss Slayer",
+    ]
     achievements_set = set(
         random.sample(
-            achievements_list,
-            random.randrange(1, len(achievements_list) + 1)
+            achievements_list, random.randrange(1, len(achievements_list) + 1)
         )
     )
     return achievements_set
@@ -46,7 +55,9 @@ def main() -> None:
 
     print(f"Alice is missing: {all_distinct_achievements.difference(alice)}")
     print(f"Bob is missing: {all_distinct_achievements.difference(bob)}")
-    print(f"Charlie is missing: {all_distinct_achievements.difference(charlie)}")
+    print(
+        f"Charlie is missing: {all_distinct_achievements.difference(charlie)}"
+    )
     print(f"Dylan is missing: {all_distinct_achievements.difference(dylan)}")
 
 
