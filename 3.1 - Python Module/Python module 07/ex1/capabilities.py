@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
-class HealCapability(ABC):
 
+class HealCapability(ABC):
     @abstractmethod
     def heal(self) -> str:
         pass
 
-class TransformCapability(ABC):
 
+class TransformCapability(ABC):
     @abstractmethod
     def transform(self) -> str:
         pass
