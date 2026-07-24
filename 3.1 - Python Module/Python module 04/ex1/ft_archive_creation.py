@@ -1,7 +1,8 @@
 import sys
 
+
 def save(lignes: list) -> None:
-    name = input('Enter new file name (or empty): ')
+    name = input("Enter new file name (or empty): ")
     if name == "":
         print("Not saving data.")
     else:
@@ -11,7 +12,6 @@ def save(lignes: list) -> None:
             f.write(ligne + "\n")
         f.close()
         print(f"Data saved in file '{name}'.")
-
 
 
 def main() -> None:
@@ -24,7 +24,11 @@ def main() -> None:
 
             content = f.read()
             print(f"---\n\n{content}\n\n---")
-            lignes = [ligne.strip() + '#' for ligne in content.split('\n') if ligne.strip() != ""]
+            lignes = [
+                ligne.strip() + "#"
+                for ligne in content.split("\n")
+                if ligne.strip() != ""
+            ]
             f.close()
 
             print(f"File '{file}' closed.")
@@ -39,7 +43,6 @@ def main() -> None:
             print("\n---")
 
             save(lignes)
-
 
         except FileNotFoundError as e:
             print(f"Error opening file '{file}': {e}")

@@ -1,5 +1,6 @@
 import sys
 
+
 def main() -> None:
     if len(sys.argv) > 1:
         file = sys.argv[1]
@@ -20,7 +21,5 @@ def main() -> None:
         print("Usage: ft_ancient_text.py <file>")
 
 
-
 if __name__ == "__main__":
-
     main()

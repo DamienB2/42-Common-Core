@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Union
 
+
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self._queue: list[str] = []
@@ -27,16 +28,16 @@ class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, (int, float)):
             return True
-        
+
         if isinstance(data, list):
             return all(isinstance(x, (int, float)) for x in data)
 
         return False
-   
+
     def ingest(self, data: Union[int, float, list[Union[int, float]]]) -> None:
         if not self.validate(data):
             raise ValueError("Improper numeric data")
-        
+
         if isinstance(data, (int, float)):
             self._queue.append(str(data))
         else:
@@ -51,13 +52,13 @@ class TextProcessor(DataProcessor):
 
         if isinstance(data, list):
             return all(isinstance(x, str) for x in data)
-        
+
         return False
-    
+
     def ingest(self, data: Union[str, list[str]]) -> None:
         if not self.validate(data):
             raise ValueError("Improper text data")
-        
+
         if isinstance(data, str):
             self._queue.append(data)
         else:
@@ -72,7 +73,7 @@ class LogProcessor(DataProcessor):
                 isinstance(k, str) and isinstance(v, str)
                 for k, v in data.items()
             )
-        
+
         if isinstance(data, list):
             return all(
                 isinstance(entry, dict)
@@ -83,11 +84,13 @@ class LogProcessor(DataProcessor):
                 for entry in data
             )
         return False
-    
-    def ingest(self, data: Union[dict[str, str], list[dict[str, str]]]) -> None:
+
+    def ingest(
+        self, data: Union[dict[str, str], list[dict[str, str]]]
+    ) -> None:
         if not self.validate(data):
             raise ValueError("Improper log data")
-        
+
         if isinstance(data, dict):
             entries = [data]
         else:
@@ -107,10 +110,14 @@ def main() -> None:
     print("Testing Numeric Processor...")
     numeric_processor = NumericProcessor()
     print(f" Trying to validate input '42': {numeric_processor.validate(42)}")
-    print(f" Trying to validate input 'Hello': {numeric_processor.validate("Hello")}")
+    print(
+        f" Trying to validate input 'Hello': {numeric_processor.validate('Hello')}"
+    )
     try:
-        print(" Test invalid ingestion of string 'foo' without prior validation:")
-        numeric_processor.ingest("foo") 
+        print(
+            " Test invalid ingestion of string 'foo' without prior validation:"
+        )
+        numeric_processor.ingest("foo")
     except Exception as e:
         print(" Got exception:", e)
     print(" Processing data: [1, 2, 3, 4, 5]")
@@ -125,7 +132,7 @@ def main() -> None:
     text_processor = TextProcessor()
     print(f" Trying to validate input '42': {text_processor.validate(42)}")
     print(" Processing data: ['Hello', 'Nexus', 'World']")
-    text_processor.ingest(['Hello', 'Nexus', 'World'])
+    text_processor.ingest(["Hello", "Nexus", "World"])
     print(" Extracting 1 value...")
     rank, value = text_processor.output()
     print(f" Text value {rank}: {value}")
@@ -133,9 +140,18 @@ def main() -> None:
 
     print("Testing Log Processor...")
     log_processor = LogProcessor()
-    print(f" Trying to validate input 'Hello': {log_processor.validate('Hello')}")
-    print(" Processing data: [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]")
-    log_processor.ingest([{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}])
+    print(
+        f" Trying to validate input 'Hello': {log_processor.validate('Hello')}"
+    )
+    print(
+        " Processing data: [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]"
+    )
+    log_processor.ingest(
+        [
+            {"log_level": "NOTICE", "log_message": "Connection to server"},
+            {"log_level": "ERROR", "log_message": "Unauthorized access!!"},
+        ]
+    )
     print(" Extracting 2 value...")
     for j in range(2):
         log_level, log_message = log_processor.output()
