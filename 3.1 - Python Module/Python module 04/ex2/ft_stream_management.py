@@ -2,7 +2,9 @@ import sys
 
 
 def save(lignes: list) -> None:
-    name = input("Enter new file name (or empty): ")
+    sys.stdout.write("Enter new file name (or empty): ")
+    sys.stdout.flush()
+    name = sys.stdin.readline().strip()
     if name == "":
         print("Not saving data.")
     else:
