@@ -8,6 +8,7 @@ def main() -> None:
         params = parse_config('config.txt')
         maze = MazeGenerator(random.randint(0, 9999), params)
         # 4257
+        maze.add_symbol()
         maze.random_dfs()
         maze.visualize()
 
