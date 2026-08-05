@@ -33,7 +33,7 @@ def generate_matrix(nb: int = 1000):
     y = np.random.normal(size=nb)
     return pandas.DataFrame({"x": x, "y": y})
 
-def visualize(df: "pandas.DataFrame", output_path: str = "matrix_analysis.pdf") -> None:
+def visualize(df: "pandas.DataFrame", output_path: str = "matrix_analysis.png") -> None:
     print("Generating visualization...")
     fig, ax = plt.subplots()
     ax.scatter(df["x"], df["y"], s=10)

@@ -1,7 +1,7 @@
 import sys
 
 
-def save(lignes: list) -> None:
+def save(lignes: list[str]) -> None:
     name = input("Enter new file name (or empty): ")
     if name == "":
         print("Not saving data.")

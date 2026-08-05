@@ -1,7 +1,7 @@
 import sys
 
 
-def save(lignes: list) -> None:
+def save(lignes: list[str]) -> None:
     sys.stdout.write("Enter new file name (or empty): ")
     sys.stdout.flush()
     name = sys.stdin.readline().strip()
