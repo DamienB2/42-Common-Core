@@ -34,6 +34,16 @@ class AlienContact(BaseModel):
             return self
 
 
+def show(alien_contact: AlienContact) -> None:
+    print(f"ID: {alien_contact.contact_id}")
+    print(f"Type: {alien_contact.contact_type.value}")
+    print(f"Location: {alien_contact.location}")
+    print(f"Signal: {alien_contact.signal_strength}/10")
+    print(f"Duration: {alien_contact.duration_minutes} minutes")
+    print(f"Witnesses: {alien_contact.witness_count}")
+    print(f"Message: '{alien_contact.message_received}'")
+
+
 if __name__ == "__main__":
     print("Alien Contact Log Validation")
     print("======================================")
@@ -49,23 +59,11 @@ if __name__ == "__main__":
             witness_count=5,
             message_received="Greetings from Zeta Reticuli"
         )
-        print(f"ID: {alien_contact.contact_id}")
-        print(f"Type: {alien_contact.contact_type.value}")
-        print(f"Location: {alien_contact.location}")
-        print(f"Signal: {alien_contact.signal_strength}/10")
-        print(f"Duration: {alien_contact.duration_minutes} minutes")
-        print(f"Witnesses: {alien_contact.witness_count}")
-        print(f"Message: '{alien_contact.message_received}'")
-    except ValidationError as e:
-        for err in e.errors():
-            print(err["msg"])
-    except ValueError as e:
-        print(e)
-    print()
-
-    print("======================================")
-    print("Expected validation error:")
-    try:
+        show(alien_contact)
+        print()
+        
+        print("======================================")
+        print("Expected validation error:")
         alien_contact = AlienContact(
             contact_id="AC_2024_001",
             timestamp=datetime(2026, 7, 31),
@@ -75,8 +73,7 @@ if __name__ == "__main__":
             duration_minutes=45,
             witness_count=2,
             message_received="Greetings from Zeta Reticuli"
-        )
-
+        ) 
     except ValidationError as e:
         for err in e.errors():
             print(err["ctx"]['error'])

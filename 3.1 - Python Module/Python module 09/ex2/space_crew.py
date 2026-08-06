@@ -36,7 +36,7 @@ class SpaceMission(BaseModel):
     def mission_validation_rules(self) -> "SpaceMission":
 
         high_graded_in = any(
-            Rank.COMMANDER or Rank.CAPTAIN in member.rank
+            member.rank in (Rank.COMMANDER, Rank.CAPTAIN)
             for member in self.crew
         )
 
@@ -60,7 +60,7 @@ class SpaceMission(BaseModel):
         if not self.mission_id.startswith("M"):
             raise ValueError('Mission ID must start with "M"')
         elif not high_graded_in:
-            raise ValueError("Must have at least one Commander or Captain")
+            raise ValueError("Mission must have at least one Commander or Captain")
         elif self.duration_days > 365 and not enough_experience:
             raise ValueError(
                 "50% of the crew must be 5+ years experienced in long mission"
@@ -69,6 +69,19 @@ class SpaceMission(BaseModel):
             raise ValueError("All crew members must be active")
         else:
             return self
+
+
+def show(spacemission: SpaceMission) -> None:
+    print("Valid mission created:")
+    print(f"Mission: {Mars_colony.mission_name}")
+    print(f"ID: {Mars_colony.mission_id}")
+    print(f"Destination: {Mars_colony.destination}")
+    print(f"Duration: {Mars_colony.duration_days} days")
+    print(f"Budget: ${Mars_colony.budget_millions}M")
+    print(f"Crew size: {len(Mars_colony.crew)}")
+    print("Crew members:")
+    for member in Mars_colony.crew:
+        print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
 
 
 if __name__ == "__main__":
@@ -110,29 +123,13 @@ if __name__ == "__main__":
             mission_status="ongoing",
             budget_millions=2500.0
         )
-
         print("Space Mission Crew Validation")
         print("=========================================")
-        print("Valid mission created:")
-        print(f"Mission: {Mars_colony.mission_name}")
-        print(f"ID: {Mars_colony.mission_id}")
-        print(f"Destination: {Mars_colony.destination}")
-        print(f"Duration: {Mars_colony.duration_days} days")
-        print(f"Budget: ${Mars_colony.budget_millions}M")
-        print(f"Crew size: {len(Mars_colony.crew)}")
-        print("Crew members:")
-        for member in Mars_colony.crew:
-            print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
-
-    except ValidationError as e:
-        for err in e.errors():
-            print(err["msg"])
-    except ValueError as e:
-        print(e)
-    print()
-
-    print("=========================================")
-    try:
+        show(Mars_colony)
+        print()
+        
+        print("=========================================")
+        print("Expected validation error:")
         Sarah = CrewMember(
             member_id="USA001",
             name="Sarah Proche",
@@ -173,6 +170,8 @@ if __name__ == "__main__":
 
     except ValidationError as e:
         for err in e.errors():
-            print(err["msg"])
+            print(err["ctx"]['error'])
     except ValueError as e:
         print(e)
+
+       

@@ -15,6 +15,21 @@ class SpaceStation(BaseModel):
     notes: Optional[str] = Field(default=None, max_length=200)
 
 
+def show(space_station: SpaceStation) -> None:
+    print("Space Station Data Validation")
+    print("========================================")
+    print("Valid station created:")
+    print(f"ID: {space_station.station_id}")
+    print(f"Name: {space_station.name}")
+    print(f"Crew: {space_station.crew_size} people")
+    print(f"Power: {space_station.power_level}%")
+    print(f"Oxygen: {space_station.oxygen_level}%")
+    if space_station.is_operational:
+        print("Status: Operational")
+    else:
+        print("Status: Not Operational")
+
+
 if __name__ == "__main__":
     try:
         space_station = SpaceStation(
@@ -26,29 +41,12 @@ if __name__ == "__main__":
             last_maintenance=datetime(2026, 7, 31),
             is_operational=True,
         )
-
-        print("Space Station Data Validation")
-        print("========================================")
-        print("Valid station created:")
-        print(f"ID: {space_station.station_id}")
-        print(f"Name: {space_station.name}")
-        print(f"Crew: {space_station.crew_size} people")
-        print(f"Power: {space_station.power_level}%")
-        print(f"Oxygen: {space_station.oxygen_level}%")
-        if space_station.is_operational:
-            print("Status: Operational")
-        else:
-            print("Status: Not Operational")
+        show(space_station)
         print()
-    except ValidationError as e:
-        for err in e.errors():
-            print(err["msg"])
-    except ValueError as e:
-        print(e)
 
-    print("========================================")
-    print("Expected validation error:")
-    try:
+        print("========================================")
+        print("Expected validation error:")
+
         space_station = SpaceStation(
             station_id="ISS001",
             name="International Space Station",
@@ -61,3 +59,5 @@ if __name__ == "__main__":
     except ValidationError as e:
         for err in e.errors():
             print(err["msg"])
+    except ValueError as e:
+        print(e)
