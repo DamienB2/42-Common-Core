@@ -46,7 +46,7 @@ class DataStream:
                     f"Can't process element in stream: {item}"
                 )
 
-    def print_processors_stats(self):
+    def print_processors_stats(self) -> None:
         print("== DataStream statistics ==")
         if len(self._processors) != 0:
             for proc in self._processors:
@@ -56,7 +56,7 @@ class DataStream:
 
                 print(
                     f"{class_name}: total {proc._processed} items processed, "
-                    "remaining {len(proc._queue)} on processor"
+                    f"remaining {len(proc._queue)} on processor"
                 )
         else:
             print("No processor found, no data")

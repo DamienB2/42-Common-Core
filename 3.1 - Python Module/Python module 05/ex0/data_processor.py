@@ -111,11 +111,13 @@ def main() -> None:
     numeric_processor = NumericProcessor()
     print(f" Trying to validate input '42': {numeric_processor.validate(42)}")
     print(
-        f" Trying to validate input 'Hello': {numeric_processor.validate('Hello')}"
+        f" Trying to validate input 'Hello': "
+        f"{numeric_processor.validate('Hello')}"
     )
     try:
         print(
-            " Test invalid ingestion of string 'foo' without prior validation:"
+            " Test invalid ingestion of string "
+            "'foo' without prior validation:"
         )
         numeric_processor.ingest("foo")
     except Exception as e:
@@ -144,7 +146,9 @@ def main() -> None:
         f" Trying to validate input 'Hello': {log_processor.validate('Hello')}"
     )
     print(
-        " Processing data: [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]"
+        " Processing data: "
+        "[{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, "
+        "{'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]"
     )
     log_processor.ingest(
         [
