@@ -24,9 +24,9 @@ class AlienContact(BaseModel):
     def check(self) -> "AlienContact":
         if not self.contact_id.startswith("AC"):
             raise ValueError('Contact ID must start with "AC"')
-        elif self.contact_type.name == "PHYSICAL" and self.is_verified == False:
+        elif self.contact_type == ContactType.PHYSICAL and self.is_verified == False:
             raise ValueError('Physical contact must be verified')
-        elif self.contact_type.name == "TELEPATHIC" and self.witness_count < 3:
+        elif self.contact_type == ContactType.TELEPATHIC and self.witness_count < 3:
             raise ValueError('Telepathic contact requires at least 3 witnesses')
         elif self.signal_strength > 7.0 and self.message_received == None:
             raise ValueError('Strong signals (> 7.0) should include received messages')
@@ -53,7 +53,7 @@ if __name__ == "__main__":
             contact_id="AC_2024_001",
             timestamp=datetime(2026, 7, 31),
             location="Area 51, Nevada",
-            contact_type='radio',
+            contact_type=ContactType.RADIO,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=5,
@@ -68,7 +68,7 @@ if __name__ == "__main__":
             contact_id="AC_2024_001",
             timestamp=datetime(2026, 7, 31),
             location="Area 51, Nevada",
-            contact_type='telepathic',
+            contact_type=ContactType.RADIO,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=2,
