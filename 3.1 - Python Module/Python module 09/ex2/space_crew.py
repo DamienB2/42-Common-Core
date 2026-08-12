@@ -73,14 +73,14 @@ class SpaceMission(BaseModel):
 
 def show(spacemission: SpaceMission) -> None:
     print("Valid mission created:")
-    print(f"Mission: {Mars_colony.mission_name}")
-    print(f"ID: {Mars_colony.mission_id}")
-    print(f"Destination: {Mars_colony.destination}")
-    print(f"Duration: {Mars_colony.duration_days} days")
-    print(f"Budget: ${Mars_colony.budget_millions}M")
-    print(f"Crew size: {len(Mars_colony.crew)}")
+    print(f"Mission: {spacemission.mission_name}")
+    print(f"ID: {spacemission.mission_id}")
+    print(f"Destination: {spacemission.destination}")
+    print(f"Duration: {spacemission.duration_days} days")
+    print(f"Budget: ${spacemission.budget_millions}M")
+    print(f"Crew size: {len(spacemission.crew)}")
     print("Crew members:")
-    for member in Mars_colony.crew:
+    for member in spacemission.crew:
         print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
 
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         Sarah = CrewMember(
             member_id="USA001",
             name="Sarah Proche",
-            rank="commander",
+            rank=Rank.COMMANDER,
             age=35,
             specialization="Mission Command",
             years_experience=8
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         Louis = CrewMember(
             member_id="EU001",
             name="Louis Vuitton",
-            rank="lieutenant",
+            rank=Rank.LIEUTENANT,
             age=45,
             specialization="Navigation",
             years_experience=18
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         Alico = CrewMember(
             member_id="EU002",
             name="Alico Merveille",
-            rank="officer",
+            rank=Rank.OFFICER,
             age=28,
             specialization="Engineering",
             years_experience=4
@@ -133,7 +133,7 @@ if __name__ == "__main__":
         Sarah = CrewMember(
             member_id="USA001",
             name="Sarah Proche",
-            rank="cadet",
+            rank=Rank.CADET,
             age=35,
             specialization="Mission Command",
             years_experience=8
@@ -142,7 +142,7 @@ if __name__ == "__main__":
         Louis = CrewMember(
             member_id="EU001",
             name="Louis Vuitton",
-            rank="cadet",
+            rank=Rank.CADET,
             age=45,
             specialization="Navigation",
             years_experience=18
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         Alico = CrewMember(
             member_id="EU002",
             name="Alico Merveille",
-            rank="officer",
+            rank=Rank.OFFICER,
             age=28,
             specialization="Engineering",
             years_experience=4

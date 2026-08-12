@@ -68,7 +68,7 @@ if __name__ == "__main__":
             contact_id="AC_2024_001",
             timestamp=datetime(2026, 7, 31),
             location="Area 51, Nevada",
-            contact_type=ContactType.RADIO,
+            contact_type=ContactType.TELEPATHIC,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=2,
