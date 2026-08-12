@@ -1,6 +1,7 @@
 from ex0 import FlameFactory, AquaFactory
 
-if __name__ == "__main__":
+
+def main() -> None:
     print("Testing factory")
     Flameling = FlameFactory().create_base()
     print(Flameling.describe())
@@ -28,3 +29,7 @@ if __name__ == "__main__":
     print(" fight!")
     print(Flameling.attack())
     print(Aquabub.attack())
+
+
+if __name__ == "__main__":
+    main()
