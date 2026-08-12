@@ -1,12 +1,15 @@
-import sys, os
+import sys
+import os
 
 
 def get_site_packages() -> str:
     venv_root = sys.prefix
     lib_dir = os.path.join(venv_root, "lib")
     python_dirs = [
-        d for d in os.listdir(lib_dir)
-        if os.path.isdir(os.path.join(lib_dir, d)) and d.startswith("python3.")] 
+        d
+        for d in os.listdir(lib_dir)
+        if os.path.isdir(os.path.join(lib_dir, d)) and d.startswith("python3.")
+    ]
     return os.path.join(lib_dir, python_dirs[0], "site-packages")
 
 
@@ -30,7 +33,7 @@ if __name__ == "__main__":
         print("Safe to install packages without affecting")
         print("the global system.\n")
         print("Package installation path:")
-        
+
         print(get_site_packages())
 
     else:

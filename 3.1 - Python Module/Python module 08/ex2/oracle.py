@@ -1,20 +1,22 @@
 from dotenv import load_dotenv
 import os
 
-def mask_secret(value):
+
+def mask_secret(value: str) -> str:
     if value:
         return value[0] + "*" * (len(value) - 2) + value[-1]
     return value
+
 
 if __name__ == "__main__":
     print("ORACLE STATUS: Reading the Matrix...\n")
 
     load_dotenv()
-    MATRIX_MODE = os.getenv('MATRIX_MODE')
-    DATABASE_URL = os.getenv('DATABASE_URL')
-    API_KEY = os.getenv('API_KEY')
-    LOG_LEVEL = os.getenv('LOG_LEVEL')
-    ZION_ENDPOINT = os.getenv('ZION_ENDPOINT')
+    MATRIX_MODE = os.getenv("MATRIX_MODE")
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    API_KEY = os.getenv("API_KEY")
+    LOG_LEVEL = os.getenv("LOG_LEVEL")
+    ZION_ENDPOINT = os.getenv("ZION_ENDPOINT")
 
     print("Configuration loaded:")
     if MATRIX_MODE:
