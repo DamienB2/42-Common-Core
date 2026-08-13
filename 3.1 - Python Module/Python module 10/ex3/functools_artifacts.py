@@ -1,6 +1,7 @@
-from functools import reduce, partial, lru_cache
-from typing import Callable
+from functools import reduce, partial, lru_cache, singledispatch
+from typing import Callable, Any
 import operator
+
 
 def spell_reducer(spells: list[int], operation: str) -> int:
     if not spells:
@@ -43,13 +44,28 @@ def memoized_fibonacci(n: int) -> int:
     return memoized_fibonacci(n - 1) + memoized_fibonacci(n - 2)
 
 
+def spell_dispatcher() -> Callable:
+    @singledispatch
+    def cast(spell: Any) -> str:
+        return f"Unknown spell type: {type(spell).__name__}"
 
+    @cast.register(int)
+    def _(spell: int) -> str:
+        return f"Damage spell deals {spell} damage!"
 
+    @cast.register(str)
+    def _(spell: str) -> str:
+        return f"Enchantment '{spell}' is cast!"
+
+    @cast.register(list)
+    def _(spell: list) -> str:
+        results = [cast(s) for s in spell]
+        return "Multi-cast!\n" + "\n".join(f" - {r}" for r in results)
+
+    return cast
 
 
 if __name__ == "__main__":
- 
-
     print("Testing spell reducer...")
     print(f"Sum: {spell_reducer([50, 50], 'add')}")
     print(f"Product: {spell_reducer([50, 50], 'multiply')}")
@@ -64,9 +80,16 @@ if __name__ == "__main__":
     print(enchants["shadow"]("goblin"))
     print()
 
-
     print("Testing memoized fibonacci...")
     print(f"fib(0) = {memoized_fibonacci(0)}")
     print(f"fib(1) = {memoized_fibonacci(1)}")
     print(f"fib(10) = {memoized_fibonacci(10)}")
     print(f"fib(15) = {memoized_fibonacci(15)}")
+    print()
+
+    print("Testing spell dispatcher...")
+    dispatcher = spell_dispatcher()
+    print(dispatcher(42))
+    print(dispatcher("fireball"))
+    print(dispatcher([10, "ice", 30]))
+    print(dispatcher(3.14))
