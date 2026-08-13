@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from enum import Enum
 from datetime import datetime
-from typing import Optional
 
 
 class Rank(Enum):
@@ -60,7 +59,9 @@ class SpaceMission(BaseModel):
         if not self.mission_id.startswith("M"):
             raise ValueError('Mission ID must start with "M"')
         elif not high_graded_in:
-            raise ValueError("Mission must have at least one Commander or Captain")
+            raise ValueError(
+                "Mission must have at least one Commander or Captain"
+            )
         elif self.duration_days > 365 and not enough_experience:
             raise ValueError(
                 "50% of the crew must be 5+ years experienced in long mission"
@@ -81,7 +82,9 @@ def show(spacemission: SpaceMission) -> None:
     print(f"Crew size: {len(spacemission.crew)}")
     print("Crew members:")
     for member in spacemission.crew:
-        print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
+        print(
+            f"- {member.name} ({member.rank.value}) - {member.specialization}"
+        )
 
 
 if __name__ == "__main__":
@@ -92,7 +95,7 @@ if __name__ == "__main__":
             rank=Rank.COMMANDER,
             age=35,
             specialization="Mission Command",
-            years_experience=8
+            years_experience=8,
         )
 
         Louis = CrewMember(
@@ -101,7 +104,7 @@ if __name__ == "__main__":
             rank=Rank.LIEUTENANT,
             age=45,
             specialization="Navigation",
-            years_experience=18
+            years_experience=18,
         )
 
         Alico = CrewMember(
@@ -110,7 +113,7 @@ if __name__ == "__main__":
             rank=Rank.OFFICER,
             age=28,
             specialization="Engineering",
-            years_experience=4
+            years_experience=4,
         )
 
         Mars_colony = SpaceMission(
@@ -121,13 +124,13 @@ if __name__ == "__main__":
             duration_days=900,
             crew=[Sarah, Louis, Alico],
             mission_status="ongoing",
-            budget_millions=2500.0
+            budget_millions=2500.0,
         )
         print("Space Mission Crew Validation")
         print("=========================================")
         show(Mars_colony)
         print()
-        
+
         print("=========================================")
         print("Expected validation error:")
         Sarah = CrewMember(
@@ -136,7 +139,7 @@ if __name__ == "__main__":
             rank=Rank.CADET,
             age=35,
             specialization="Mission Command",
-            years_experience=8
+            years_experience=8,
         )
 
         Louis = CrewMember(
@@ -145,7 +148,7 @@ if __name__ == "__main__":
             rank=Rank.CADET,
             age=45,
             specialization="Navigation",
-            years_experience=18
+            years_experience=18,
         )
 
         Alico = CrewMember(
@@ -154,7 +157,7 @@ if __name__ == "__main__":
             rank=Rank.OFFICER,
             age=28,
             specialization="Engineering",
-            years_experience=4
+            years_experience=4,
         )
 
         Mars_colony = SpaceMission(
@@ -165,13 +168,11 @@ if __name__ == "__main__":
             duration_days=900,
             crew=[Sarah, Louis, Alico],
             mission_status="ongoing",
-            budget_millions=2500.0
+            budget_millions=2500.0,
         )
 
     except ValidationError as e:
         for err in e.errors():
-            print(err["ctx"]['error'])
+            print(err["ctx"]["error"])
     except ValueError as e:
         print(e)
-
-       

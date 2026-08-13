@@ -3,11 +3,13 @@ from enum import Enum
 from datetime import datetime
 from typing import Optional
 
+
 class ContactType(Enum):
     RADIO = "radio"
     VISUAL = "visual"
     PHYSICAL = "physical"
     TELEPATHIC = "telepathic"
+
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
@@ -24,12 +26,22 @@ class AlienContact(BaseModel):
     def check(self) -> "AlienContact":
         if not self.contact_id.startswith("AC"):
             raise ValueError('Contact ID must start with "AC"')
-        elif self.contact_type == ContactType.PHYSICAL and self.is_verified == False:
-            raise ValueError('Physical contact must be verified')
-        elif self.contact_type == ContactType.TELEPATHIC and self.witness_count < 3:
-            raise ValueError('Telepathic contact requires at least 3 witnesses')
-        elif self.signal_strength > 7.0 and self.message_received == None:
-            raise ValueError('Strong signals (> 7.0) should include received messages')
+        elif (
+            self.contact_type == ContactType.PHYSICAL
+            and not self.is_verified
+        ):
+            raise ValueError("Physical contact must be verified")
+        elif (
+            self.contact_type == ContactType.TELEPATHIC
+            and self.witness_count < 3
+        ):
+            raise ValueError(
+                "Telepathic contact requires at least 3 witnesses"
+            )
+        elif self.signal_strength > 7.0 and not self.message_received:
+            raise ValueError(
+                "Strong signals (> 7.0) should include received messages"
+            )
         else:
             return self
 
@@ -57,11 +69,11 @@ if __name__ == "__main__":
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=5,
-            message_received="Greetings from Zeta Reticuli"
+            message_received="Greetings from Zeta Reticuli",
         )
         show(alien_contact)
         print()
-        
+
         print("======================================")
         print("Expected validation error:")
         alien_contact = AlienContact(
@@ -72,10 +84,10 @@ if __name__ == "__main__":
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=2,
-            message_received="Greetings from Zeta Reticuli"
-        ) 
+            message_received="Greetings from Zeta Reticuli",
+        )
     except ValidationError as e:
         for err in e.errors():
-            print(err["ctx"]['error'])
+            print(err["ctx"]["error"])
     except ValueError as e:
         print(e)
