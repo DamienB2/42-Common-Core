@@ -1,5 +1,6 @@
 from typing import Callable
 
+
 def mage_counter() -> Callable:
     count = 0
 
@@ -19,14 +20,13 @@ def spell_accumulator(initial_power: int) -> Callable:
         total_power += added_power
         return total_power
 
-    return accumulates_power 
+    return accumulates_power
 
 
 def enchantment_factory(enchantment_type: str) -> Callable:
     enchantment = enchantment_type
 
     def apply_to_item(item: str) -> str:
-        nonlocal enchantment
         item = enchantment + " " + item
         return item
 
@@ -39,13 +39,12 @@ def memory_vault() -> dict[str, Callable]:
     def store(key: str, value: int) -> None:
         vault[key] = value
 
-    def recall(key: str) -> str:
+    def recall(key: str) -> str | int:
         if key in vault:
             return vault.pop(key)
         return "Memory not found"
 
     return {"store": store, "recall": recall}
-
 
 
 if __name__ == "__main__":
@@ -63,8 +62,14 @@ if __name__ == "__main__":
     accumulate_power = spell_accumulator(base_power)
 
     print("Testing spell accumulator...")
-    print(f"Base {base_power}, add {added_power}: {accumulate_power(added_power)}")
-    print(f"Base {base_power}, add {added_power}: {accumulate_power(added_power)}")
+    print(
+        f"Base {base_power}, add {added_power}: "
+        f"{accumulate_power(added_power)}"
+    )
+    print(
+        f"Base {base_power}, add {added_power}: "
+        f"{accumulate_power(added_power)}"
+    )
     print()
 
     item = "Sword"
@@ -82,7 +87,3 @@ if __name__ == "__main__":
     print("Store 'secret' = 42")
     print("Recall 'secret':", vault["recall"]("secret"))
     print("Recall 'unknown':", vault["recall"]("unknown"))
-    
-
-
-

@@ -2,6 +2,7 @@ from functools import wraps
 import time
 from typing import Callable
 
+
 def spell_timer(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -15,6 +16,7 @@ def spell_timer(func: Callable) -> Callable:
         print(f"Spell completed in {elapsed_time:.3f} seconds")
 
         return result
+
     return wrapper
 
 
@@ -35,7 +37,6 @@ def power_validator(min_power: int) -> Callable:
         return wrapper
 
     return decorator
-        
 
 
 def retry_spell(max_attempts: int) -> Callable:
@@ -46,8 +47,11 @@ def retry_spell(max_attempts: int) -> Callable:
             while attempts < max_attempts:
                 try:
                     return func(*args, **kwargs)
-                except:
-                    print(f"Spell failed, retrying... ({attempts}/{max_attempts})")
+                except ValueError:
+                    print(
+                        "Spell failed, retrying... "
+                        f"({attempts}/{max_attempts})"
+                    )
                     attempts += 1
 
             return "Spell casting failed after max_attempts attempts"
@@ -62,7 +66,7 @@ class MageGuild:
     def validate_mage_name(name: str) -> bool:
         if len(name) >= 3:
             for char in name:
-                if not char.isalpha() and ...:
+                if not char.isalpha() and not char.isspace():
                     return False
             return True
         return False
@@ -80,15 +84,13 @@ def fireball(power: int) -> str:
         return f"Fireball launched with {power} power"
     else:
         raise Exception
-        
-
 
 
 if __name__ == "__main__":
-    print(fireball(80))
+    # print(fireball(10))
     print()
 
     guild = MageGuild()
-    spell = "fireball"
-    if(MageGuild.validate_mage_name(spell)):
+    spell = "fire bagitll"
+    if MageGuild.validate_mage_name(spell):
         print(guild.cast_spell(spell, 80))
