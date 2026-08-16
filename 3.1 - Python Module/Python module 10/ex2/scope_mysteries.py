@@ -1,7 +1,8 @@
-from typing import Callable
+from collections.abc import Callable
+from typing import Any
 
 
-def mage_counter() -> Callable:
+def mage_counter() -> Callable[[], int]:
     count = 0
 
     def counter() -> int:
@@ -12,7 +13,7 @@ def mage_counter() -> Callable:
     return counter
 
 
-def spell_accumulator(initial_power: int) -> Callable:
+def spell_accumulator(initial_power: int) -> Callable[[int], int]:
     total_power = initial_power
 
     def accumulates_power(added_power: int) -> int:
@@ -23,25 +24,24 @@ def spell_accumulator(initial_power: int) -> Callable:
     return accumulates_power
 
 
-def enchantment_factory(enchantment_type: str) -> Callable:
+def enchantment_factory(enchantment_type: str) -> Callable[[str], str]:
     enchantment = enchantment_type
 
     def apply_to_item(item: str) -> str:
-        item = enchantment + " " + item
-        return item
+        return enchantment + " " + item
 
     return apply_to_item
 
 
-def memory_vault() -> dict[str, Callable]:
-    vault = {}
+def memory_vault() -> dict[str, Callable[..., Any]]:
+    vault: dict[str, int] = {}
 
     def store(key: str, value: int) -> None:
         vault[key] = value
 
-    def recall(key: str) -> str | intclear:
+    def recall(key: str) -> str | int:
         if key in vault:
-            return vault.pop(key)
+            return vault[key]
         return "Memory not found"
 
     return {"store": store, "recall": recall}
@@ -66,6 +66,7 @@ if __name__ == "__main__":
         f"Base {base_power}, add {added_power}: "
         f"{accumulate_power(added_power)}"
     )
+    added_power = 30
     print(
         f"Base {base_power}, add {added_power}: "
         f"{accumulate_power(added_power)}"
@@ -78,6 +79,8 @@ if __name__ == "__main__":
 
     print("Testing enchantment factory...")
     print(item_enchanter(item))
+    ice_enchanter = enchantment_factory("Frozen")
+    print(ice_enchanter("Shield"))
     print()
 
     vault = memory_vault()

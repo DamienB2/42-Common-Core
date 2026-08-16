@@ -1,29 +1,30 @@
 from functools import wraps
+from collections.abc import Callable
+from typing import Any
 import time
-from typing import Callable
 
 
-def spell_timer(func: Callable) -> Callable:
+def spell_timer(func: Callable[..., Any]) -> Callable[..., Any]:
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
         print(f"Casting {func.__name__}...")
 
         start_time = time.time()
         result = func(*args, **kwargs)
-        end_time = time.time()
+        elapsed_time = time.time() - start_time
 
-        elapsed_time = end_time - start_time
         print(f"Spell completed in {elapsed_time:.3f} seconds")
-
         return result
 
     return wrapper
 
 
-def power_validator(min_power: int) -> Callable:
-    def decorator(func: Callable) -> Callable:
+def power_validator(
+    min_power: int,
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             power = kwargs.get("power")
 
             if power is None and args:
@@ -39,22 +40,23 @@ def power_validator(min_power: int) -> Callable:
     return decorator
 
 
-def retry_spell(max_attempts: int) -> Callable:
-    def decorator(func: Callable) -> Callable:
+def retry_spell(
+    max_attempts: int,
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
-        def wrapper(*args, **kwargs):
-            attempts = 0
-            while attempts < max_attempts:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            for attempt in range(1, max_attempts + 1):
                 try:
                     return func(*args, **kwargs)
-                except ValueError:
-                    print(
-                        "Spell failed, retrying... "
-                        f"({attempts}/{max_attempts})"
-                    )
-                    attempts += 1
+                except Exception:
+                    if attempt < max_attempts:
+                        print(
+                            "Spell failed, retrying... "
+                            f"(attempt {attempt}/{max_attempts})"
+                        )
 
-            return "Spell casting failed after max_attempts attempts"
+            return f"Spell casting failed after {max_attempts} attempts"
 
         return wrapper
 
@@ -76,21 +78,27 @@ class MageGuild:
         return f"Successfully cast {spell_name} with {power} power"
 
 
-# @retry_spell(3)
-# @spell_timer
-# @power_validator(min_power=50)
 def fireball(power: int) -> str:
     if power >= 0:
-        return f"Fireball launched with {power} power"
-    else:
-        raise Exception
+        time.sleep(0.1)
+        return "Fireball cast!"
+    raise Exception("The spell failed")
 
 
 if __name__ == "__main__":
-    # print(fireball(10))
+    print("Testing spell timer...")
+    timed_fireball = spell_timer(fireball)
+    print(f"Result: {timed_fireball(10)}")
     print()
 
+    print("Testing retrying spell...")
+    chaotic_fireball = retry_spell(3)(fireball)
+    print(chaotic_fireball(-1))
+    print()
+
+    print("Testing MageGuild...")
+    print(MageGuild.validate_mage_name("Gandalf"))
+    print(MageGuild.validate_mage_name("A1"))
     guild = MageGuild()
-    spell = "fire bagitll"
-    if MageGuild.validate_mage_name(spell):
-        print(guild.cast_spell(spell, 80))
+    print(guild.cast_spell("Lightning", 15))
+    print(guild.cast_spell("Lightning", 5))
