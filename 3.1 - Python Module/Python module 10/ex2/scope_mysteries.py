@@ -39,7 +39,7 @@ def memory_vault() -> dict[str, Callable]:
     def store(key: str, value: int) -> None:
         vault[key] = value
 
-    def recall(key: str) -> str | int:
+    def recall(key: str) -> str | intclear:
         if key in vault:
             return vault.pop(key)
         return "Memory not found"
