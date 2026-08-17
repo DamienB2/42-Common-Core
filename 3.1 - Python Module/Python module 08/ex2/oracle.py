@@ -67,4 +67,4 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"ORACLE STATUS: Error reading the Matrix - {e}")
     else:
-        print("You're still plugged in. Please activate the virtual environment to read the Matrix.")
+        print("You're still plugged in.")

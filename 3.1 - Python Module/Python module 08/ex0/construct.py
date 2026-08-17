@@ -10,7 +10,7 @@ def get_site_packages() -> str:
 if __name__ == "__main__":
     in_venv = sys.base_prefix != sys.prefix
 
-    if in_venv :
+    if in_venv:
         message = "Welcome to the construct"
     else:
         message = "You're still plugged in"
