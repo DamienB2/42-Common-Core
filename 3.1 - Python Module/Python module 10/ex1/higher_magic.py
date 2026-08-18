@@ -59,7 +59,8 @@ def spell_sequence(spells: list[SpellFunc]) -> Callable[[str, int], list[str]]:
 if __name__ == "__main__":
     print("Testing spell combiner...")
     combined = spell_combiner(fireball, heal)
-    print(combined("Dragon", 50))
+    spell1, spell2 = combined("Dragon", 50)
+    print(f"Combined spell result: {spell1}, {spell2}")
     print()
 
     print("Testing power amplifier...")
