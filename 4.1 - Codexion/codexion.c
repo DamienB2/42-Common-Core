@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:07:59 by dbaise            #+#    #+#             */
-/*   Updated: 2026/08/25 18:06:36 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/07 17:06:18 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,7 @@ int	main(int argc, char *argv[])
 {
 	t_params	params;
 
-	parser(argc, argv, &params);
+	if (!parser(argc, argv, &params))
+		return (0);
+	return (0);
 }

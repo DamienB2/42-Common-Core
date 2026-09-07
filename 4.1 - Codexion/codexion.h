@@ -13,6 +13,10 @@
 #ifndef CODEXION_H
 # define CODEXION_H
 
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
+
 typedef struct params
 {
 	int		nb_coders;		//number_of_coders
@@ -26,10 +30,13 @@ typedef struct params
 }	t_params;
 
 //	parser.c
-int	parser(int argc, char *argv[], t_params	params);
+int	parser(int argc, char *argv[], t_params	*params);
 
 //	helper.c
 int	ft_isdigit(int c);
+int	ft_is_str_digit(char *str);
+int	ft_tolower(int c);
+int	ft_atoi(const char *nptr);
 
 
 
