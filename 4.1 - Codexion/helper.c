@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:25:57 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/07 17:42:42 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/08 12:36:35 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_atoi(const char *nptr)
 	{
 		result = result * 10 + (nptr[i] - '0');
 		if (result > 2147483647)
-			return (0);
+			return (-1);
 		i++;
 	}
 	return ((int)(result));
