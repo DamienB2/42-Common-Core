@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:24:26 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/08 13:01:28 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/08 18:20:04 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,26 @@ void	atoi_and_set(char *argv[], t_params	*params)
 		params->scheduler = 1;
 }
 
-void	check_params(t_params *params)
+int	check_params(t_params *params)
 {
-	if (params->nb_coders == -1 || params->burnout_t == -1
-		|| params->compile_t == -1 || params->debug_t == -1
-		|| params->refactor_t == -1 || params->nb_compiles == -1
-		|| params->dongle_cd == -1)
+	if (params->nb_coders == -1 || params->nb_coders == 0
+		|| params->burnout_t == -1 || params->compile_t == -1
+		|| params->debug_t == -1 || params->refactor_t == -1
+		|| params->nb_compiles == -1 || params->dongle_cd == -1)
 	{
 		printf("Error: invalid parameter\n");
+		return (0);
 	}
+	return (1);
 }
 
 //a.out 4 200 200 200 200 3 200 fifo
 int	parser(int argc, char *argv[], t_params	*params)
 {
-	(void) params;
 	if (!args_checker(argc, argv))
 		return (0);
 	atoi_and_set(argv, params);
-	check_params(params);
+	if (!check_params(params))
+		return (0);
 	return (1);
 }

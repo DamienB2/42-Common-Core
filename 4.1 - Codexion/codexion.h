@@ -29,13 +29,19 @@ typedef struct params
 	int		scheduler;		//scheduler 0 is fifo and 1 is edf
 }	t_params;
 
+typedef struct coder
+{
+	int	number;
+	int	left_dongle;
+	int	right_dongle;
+}	t_coder;
+
 //	parser.c
 int	parser(int argc, char *argv[], t_params	*params);
 
 //	helper.c
 int	ft_isdigit(int c);
 int	ft_is_str_digit(char *str);
-int	ft_tolower(int c);
 int	ft_atoi(const char *nptr);
 
 
