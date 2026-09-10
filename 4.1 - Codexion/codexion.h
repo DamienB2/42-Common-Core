@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <string.h>
+# include <pthread.h>
 # include <stdio.h>
 
 typedef struct params
@@ -29,11 +30,18 @@ typedef struct params
 	int		scheduler;		//scheduler 0 is fifo and 1 is edf
 }	t_params;
 
+typedef struct s_shared
+{
+    pthread_mutex_t print_lock;
+	int nb_say;
+} t_shared;
+
 typedef struct coder
 {
-	int	number;
-	int	left_dongle;
-	int	right_dongle;
+	int	id;
+	int nb_hello;
+	pthread_t thread;
+	t_shared *shared;
 }	t_coder;
 
 //	parser.c
@@ -43,7 +51,10 @@ int	parser(int argc, char *argv[], t_params	*params);
 int	ft_isdigit(int c);
 int	ft_is_str_digit(char *str);
 int	ft_atoi(const char *nptr);
+long get_time_ms(void);
 
-
+//codexion.c
+void *say(void *arg);
+int	simulation(t_params params);
 
 #endif

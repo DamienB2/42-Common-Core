@@ -1,7 +1,7 @@
 NAME = codexion
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -pthread	
 
 SRC = \
 	codexion.c \
