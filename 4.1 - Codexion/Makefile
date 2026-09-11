@@ -7,7 +7,8 @@ SRC = \
 	codexion.c \
 	parser.c \
 	parser_helper.c \
-	time_helper.c
+	time_helper.c \
+	simulation.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

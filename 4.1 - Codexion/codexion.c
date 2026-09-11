@@ -6,75 +6,89 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:07:59 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/11 11:37:03 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/11 17:01:32 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	simulation(t_params params)
+static int	enqueue(t_sim *sim, t_coder *coder)
 {
-	t_coder		*coders;
-	t_shared	shared;
-	int			i;
+	int	i;
 
-	coders = malloc(sizeof(t_coder) * params.nb_coders);
-	if (!coders)
-		return (0);
-	if (pthread_mutex_init(&shared.print_lock, NULL) != 0)
-	{
-		free(coders);
-		return (0);
-	}
-	shared.nb_say = 0;
-	shared.start_time = get_time_ms();
 	i = 0;
-	while (i < params.nb_coders)
+	while (i < sim->nb_coders)
 	{
-		coders[i].id = i + 1;
-		coders[i].nb_hello = params.nb_compiles;
-		coders[i].shared = &shared;
-		if (pthread_create(&coders[i].thread, NULL, say, &coders[i]) != 0)
+		if (!sim->waiting[i].active)
 		{
-			pthread_mutex_destroy(&shared.print_lock);
-			free(coders);
-			return (0);
+			sim->waiting[i].active = 1;
+			sim->waiting[i].id = coder->id;
+			sim->waiting[i].seq = sim->next_seq;
+			sim->next_seq += 1;
+			sim->waiting[i].deadline = get_time_ms() + coder->burnout_t;
+			return (i);
 		}
 		i++;
 	}
+	return (-1);
+}
+
+static int	is_my_turn(t_sim *sim, int id)
+{
+	int	i;
+	int	best;
+
+	best = -1;
 	i = 0;
-	while (i < params.nb_coders)
+	while (i < sim->nb_coders)
 	{
-		pthread_join(coders[i].thread, NULL);
+		if (sim->waiting[i].active)
+		{
+			if (best == -1)
+				best = i;
+			else if (sim->scheduler == 0
+				&& sim->waiting[i].seq < sim->waiting[best].seq)
+				best = i;
+			else if (sim->scheduler == 1
+				&& sim->waiting[i].deadline < sim->waiting[best].deadline)
+				best = i;
+		}
 		i++;
 	}
-	pthread_mutex_destroy(&shared.print_lock);
-	free(coders);
-	return (1);
+	if (best == -1)
+		return (0);
+	return (sim->waiting[best].id == id);
 }
 
 void	*say(void *arg)
 {
 	t_coder	*coder;
 	int		i;
+	int		slot;
 
 	coder = (t_coder *)arg;
 	i = 0;
-	while (i < coder->nb_hello)
+	while (i < coder->nb_compiles_required)
 	{
-		pthread_mutex_lock(&coder->shared->print_lock);
+		pthread_mutex_lock(&coder->sim->print_lock);
+		slot = enqueue(coder->sim, coder);
+		while (!is_my_turn(coder->sim, coder->id))
+			pthread_cond_wait(&coder->sim->turn_cond, &coder->sim->print_lock);
+		coder->sim->waiting[slot].active = 0;
 		printf(
 			"%ld, Hello from coder %d\n",
-			get_sim_time(coder->shared->start_time), coder->id);
+			get_sim_time(coder->sim->start_time), coder->id);
 		printf(
 			"%ld, print number %i\n",
-			get_sim_time(coder->shared->start_time), coder->shared->nb_say);
-		coder->shared->nb_say += 1;
-		pthread_mutex_unlock(&coder->shared->print_lock);
+			get_sim_time(coder->sim->start_time), coder->sim->nb_say);
+		coder->sim->nb_say += 1;
+		pthread_cond_broadcast(&coder->sim->turn_cond);
+		pthread_mutex_unlock(&coder->sim->print_lock);
 		i++;
 	}
 	return (NULL);
 }
+
 
 
 int	main(int argc, char *argv[])

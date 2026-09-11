@@ -18,8 +18,9 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <unistd.h>
 
-typedef struct params
+typedef struct s_params
 {
 	int		nb_coders;		//number_of_coders
 	int		burnout_t;		//time_to_burnout
@@ -31,20 +32,45 @@ typedef struct params
 	int		scheduler;		//scheduler 0 is fifo and 1 is edf
 }	t_params;
 
-typedef struct s_shared
+typedef struct s_request
 {
-	pthread_mutex_t		print_lock;
-	int					nb_say;
-	long				start_time;
-}	t_shared;
-
-typedef struct coder
+	int		active;
+	int		id;
+	long	seq;
+	long	deadline;
+}	t_request;
+ 
+typedef struct s_sim
+{
+	pthread_mutex_t	print_lock;
+	pthread_cond_t	turn_cond;
+	int				nb_say;
+	long			start_time;
+	int				scheduler;
+	int				nb_coders;
+	long			next_seq;
+	t_request		*waiting;
+}	t_sim;
+ 
+typedef struct s_coder
 {
 	int			id;
-	int			nb_hello;
+	int			nb_compiles_required;
+	int			compile_t;
+	int			debug_t;
+	int			refactor_t;
+	int			burnout_t;
 	pthread_t	thread;
-	t_shared	*shared;
+	t_sim		*sim;
 }	t_coder;
+
+typedef struct s_dongle
+{
+	int				id;
+	int				cooldown;
+	pthread_mutex_t	dongle_lock;
+
+}	t_dongle;
 
 //	parser.c
 int		parser(int argc, char *argv[], t_params	*params);
@@ -58,9 +84,11 @@ int		ft_atoi(const char *nptr);
 long	get_time_ms(void);
 long	get_sim_time(long simulation_time);
 
-
 //codexion.c
 void	*say(void *arg);
+
+//simulation.c
+int		init_simulation(t_params params, t_sim *sim);
 int		simulation(t_params params);
 
 #endif
