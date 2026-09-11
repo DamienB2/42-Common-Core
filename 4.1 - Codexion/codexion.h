@@ -17,6 +17,7 @@
 # include <string.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <sys/time.h>
 
 typedef struct params
 {
@@ -32,29 +33,34 @@ typedef struct params
 
 typedef struct s_shared
 {
-    pthread_mutex_t print_lock;
-	int nb_say;
-} t_shared;
+	pthread_mutex_t		print_lock;
+	int					nb_say;
+	long				start_time;
+}	t_shared;
 
 typedef struct coder
 {
-	int	id;
-	int nb_hello;
-	pthread_t thread;
-	t_shared *shared;
+	int			id;
+	int			nb_hello;
+	pthread_t	thread;
+	t_shared	*shared;
 }	t_coder;
 
 //	parser.c
-int	parser(int argc, char *argv[], t_params	*params);
+int		parser(int argc, char *argv[], t_params	*params);
 
-//	helper.c
-int	ft_isdigit(int c);
-int	ft_is_str_digit(char *str);
-int	ft_atoi(const char *nptr);
-long get_time_ms(void);
+//	parser_helper.c
+int		ft_isdigit(int c);
+int		ft_is_str_digit(char *str);
+int		ft_atoi(const char *nptr);
+
+//time_helper.c
+long	get_time_ms(void);
+long	get_sim_time(long simulation_time);
+
 
 //codexion.c
-void *say(void *arg);
-int	simulation(t_params params);
+void	*say(void *arg);
+int		simulation(t_params params);
 
 #endif

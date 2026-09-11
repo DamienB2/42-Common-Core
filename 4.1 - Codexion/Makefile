@@ -1,25 +1,30 @@
 NAME = codexion
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -pthread	
+CFLAGS = -Wall -Wextra -Werror -g -pthread
 
 SRC = \
 	codexion.c \
 	parser.c \
-	helper.c
+	parser_helper.c \
+	time_helper.c
 
-OBJ = $(SRC:.c=.o)
+OBJ_DIR = obj
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.c codexion-2.h
+$(OBJ_DIR)/%.o: %.c codexion.h | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
