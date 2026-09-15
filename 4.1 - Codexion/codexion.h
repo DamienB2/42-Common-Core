@@ -32,63 +32,80 @@ typedef struct s_params
 	int		scheduler;		//scheduler 0 is fifo and 1 is edf
 }	t_params;
 
-typedef struct s_request
+typedef struct s_queue_node
 {
-	int		active;
 	int		id;
 	long	seq;
 	long	deadline;
-}	t_request;
- 
+}	t_queue_node;
+
+typedef struct s_queue
+{
+	t_queue_node	nodes[2];
+	int				size;
+	int				scheduler;
+}	t_queue;
+
+typedef struct s_dongle
+{
+	int				taken;
+	long			free_at;
+	long			next_seq;
+	pthread_mutex_t	lock;
+	pthread_cond_t	cond;
+	t_queue			queue;
+}	t_dongle;
+
+
 typedef struct s_sim
 {
 	pthread_mutex_t	print_lock;
-	pthread_cond_t	turn_cond;
-	int				nb_say;
+	pthread_mutex_t	stop_lock;
 	long			start_time;
 	int				scheduler;
 	int				nb_coders;
-	long			next_seq;
-	t_request		*waiting;
+	int				nb_compiles_required;
+	int				stop;
+	t_dongle		*dongles;
+	long			*last_compile_start;
+	int				*nb_compiles_done;
 }	t_sim;
- 
+
 typedef struct s_coder
 {
 	int			id;
-	int			nb_compiles_required;
 	int			compile_t;
 	int			debug_t;
 	int			refactor_t;
 	int			burnout_t;
+	t_dongle	*left;
+	t_dongle	*right;
 	pthread_t	thread;
 	t_sim		*sim;
 }	t_coder;
 
-typedef struct s_dongle
-{
-	int				id;
-	int				cooldown;
-	pthread_mutex_t	dongle_lock;
+// parser.c
+int				parser(int argc, char *argv[], t_params	*params);
 
-}	t_dongle;
+// parser_helper.c
+int				ft_isdigit(int c);
+int				ft_is_str_digit(char *str);
+int				ft_atoi(const char *nptr);
 
-//	parser.c
-int		parser(int argc, char *argv[], t_params	*params);
+// time_helper.c
+long			get_time_ms(void);
+long			get_sim_time(long simulation_time);
 
-//	parser_helper.c
-int		ft_isdigit(int c);
-int		ft_is_str_digit(char *str);
-int		ft_atoi(const char *nptr);
+// codexion.c
+void			*say(void *arg);
 
-//time_helper.c
-long	get_time_ms(void);
-long	get_sim_time(long simulation_time);
+// simulation.c
+int				init_simulation(t_params params, t_sim *sim);
+int				simulation(t_params params);
 
-//codexion.c
-void	*say(void *arg);
-
-//simulation.c
-int		init_simulation(t_params params, t_sim *sim);
-int		simulation(t_params params);
+//pqueue.c
+void			pq_push(t_queue *pq, t_queue_node node);
+t_queue_node	pq_pop(t_queue *pq);
+int				pq_peek_id(t_queue *pq);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:07:59 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/11 17:01:32 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/15 11:57:54 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	*say(void *arg)
 	}
 	return (NULL);
 }
-
-
 
 int	main(int argc, char *argv[])
 {
