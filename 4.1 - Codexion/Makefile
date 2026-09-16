@@ -8,7 +8,10 @@ SRC = \
 	parser.c \
 	parser_helper.c \
 	time_helper.c \
-	simulation.c
+	simulation.c \
+	priority_queue.c \
+	dongle.c \
+	sim_utils.c	
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

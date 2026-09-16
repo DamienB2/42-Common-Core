@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
+/*   By: demain <demain@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:24:26 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/10 15:54:15 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/16 23:15:09 by demain           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 #include "codexion.h"
@@ -71,7 +71,7 @@ static int	check_values(t_params *params)
 	return (1);
 }
 
-void	atoi_and_set(char *argv[], t_params	*params)
+int	atoi_and_set(char *argv[], t_params	*params)
 {
 	params->nb_coders = ft_atoi(argv[1]);
 	params->burnout_t = ft_atoi(argv[2]);
@@ -83,12 +83,13 @@ void	atoi_and_set(char *argv[], t_params	*params)
 	if (strcmp(argv[8], "fifo") != 0 && strcmp(argv[8], "edf") != 0)
     {
         printf("scheduler must be 'fifo' or 'edf'\n");
-        return ;
+        return (0);
     }
 	if (strcmp(argv[8], "fifo") == 0)
 		params->scheduler = 0;
 	else
 		params->scheduler = 1;
+	return (1);
 }
 
 //a.out 4 200 200 200 200 3 200 fifo
@@ -101,7 +102,8 @@ int	parser(int argc, char *argv[], t_params	*params)
     }
 	if (!check_numeric_args(argv))
 		return (0);
-	atoi_and_set(argv, params);
+	if (!atoi_and_set(argv, params));
+		return (0);
 	if (!check_values(params))
 		return (0);
 	return (1);

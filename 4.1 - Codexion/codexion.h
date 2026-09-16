@@ -103,7 +103,13 @@ void			*say(void *arg);
 int				init_simulation(t_params params, t_sim *sim);
 int				simulation(t_params params);
 
-//pqueue.c
+// sim_utils.c
+int				sim_should_stop(t_sim *sim);
+void			sim_stop_simulation(t_sim *sim);
+
+
+
+// priority_queue.c
 void			pq_push(t_queue *pq, t_queue_node node);
 t_queue_node	pq_pop(t_queue *pq);
 int				pq_peek_id(t_queue *pq);
