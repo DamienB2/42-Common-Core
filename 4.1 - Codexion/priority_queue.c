@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priority_queue.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demain <demain@student.42belgium.be>       +#+  +:+       +#+        */
+/*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:32:58 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/16 12:36:58 by demain           ###   #######belgium.be */
+/*   Updated: 2026/09/17 11:04:49 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -56,7 +56,6 @@ typedef struct s_dongle
 	t_queue			queue;
 }	t_dongle;
 
-
 typedef struct s_sim
 {
 	pthread_mutex_t	print_lock;
@@ -64,6 +63,7 @@ typedef struct s_sim
 	long			start_time;
 	int				scheduler;
 	int				nb_coders;
+	int				nb_dongles;
 	int				nb_compiles_required;
 	int				stop;
 	t_dongle		*dongles;
@@ -78,8 +78,8 @@ typedef struct s_coder
 	int			debug_t;
 	int			refactor_t;
 	int			burnout_t;
-	t_dongle	*left;
-	t_dongle	*right;
+	t_dongle	*left_dongle;
+	t_dongle	*right_dongle;
 	pthread_t	thread;
 	t_sim		*sim;
 }	t_coder;
@@ -107,11 +107,16 @@ int				simulation(t_params params);
 int				sim_should_stop(t_sim *sim);
 void			sim_stop_simulation(t_sim *sim);
 
-
-
 // priority_queue.c
 void			pq_push(t_queue *pq, t_queue_node node);
 t_queue_node	pq_pop(t_queue *pq);
 int				pq_peek_id(t_queue *pq);
+
+// dongle.c
+void			init_dongle(t_dongle *dongle, int scheduler);
+void			destroy_dongle(t_dongle *dongle);
+void			take_dongle(t_dongle *dongle,
+					int id, long deadline, t_sim *sim);
+void			release_dongle(t_dongle *dongle, int cooldown);
 
 #endif

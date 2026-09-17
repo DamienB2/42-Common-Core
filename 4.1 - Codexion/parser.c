@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demain <demain@student.42belgium.be>       +#+  +:+       +#+        */
+/*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:24:26 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/16 23:15:09 by demain           ###   #######belgium.be */
+/*   Updated: 2026/09/17 11:04:44 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 #include "codexion.h"
@@ -50,23 +50,23 @@ static int	check_values(t_params *params)
 	if (params->nb_coders <= 0)
 	{
 		printf("number_of_coders is incorrect\n");
-		return(0);
+		return (0);
 	}
 	if (params->burnout_t <= 0 || params->compile_t <= 0
 		|| params->debug_t <= 0 || params->refactor_t <= 0)
 	{
 		printf("time values is incorrect\n");
-		return(0);
+		return (0);
 	}
 	if (params->nb_compiles <= 0)
 	{
 		printf("number_of_compiles_required is incorrect\n");
-		return(0);
+		return (0);
 	}
 	if (params->dongle_cd < 0)
 	{
 		printf("dongle_cooldown is incorrect\n");
-		return(0);
+		return (0);
 	}
 	return (1);
 }
@@ -81,10 +81,10 @@ int	atoi_and_set(char *argv[], t_params	*params)
 	params->nb_compiles = ft_atoi(argv[6]);
 	params->dongle_cd = ft_atoi(argv[7]);
 	if (strcmp(argv[8], "fifo") != 0 && strcmp(argv[8], "edf") != 0)
-    {
-        printf("scheduler must be 'fifo' or 'edf'\n");
-        return (0);
-    }
+	{
+		printf("scheduler must be 'fifo' or 'edf'\n");
+		return (0);
+	}
 	if (strcmp(argv[8], "fifo") == 0)
 		params->scheduler = 0;
 	else
@@ -95,14 +95,14 @@ int	atoi_and_set(char *argv[], t_params	*params)
 //a.out 4 200 200 200 200 3 200 fifo
 int	parser(int argc, char *argv[], t_params	*params)
 {
-    if (argc != 9)
-    {
+	if (argc != 9)
+	{
 		printf("wrong number of arguments (expected 8)\n");
-        return (0);
-    }
+		return (0);
+	}
 	if (!check_numeric_args(argv))
 		return (0);
-	if (!atoi_and_set(argv, params));
+	if (!atoi_and_set(argv, params))
 		return (0);
 	if (!check_values(params))
 		return (0);
