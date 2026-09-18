@@ -100,12 +100,22 @@ long			get_sim_time(long simulation_time);
 void			*say(void *arg);
 
 // simulation.c
-int				init_simulation(t_params params, t_sim *sim);
 int				simulation(t_params params);
+int				start_coders(t_coder *coders, int nb_coders, t_sim *sim);
+void			assign_dongles(t_coder *coder, t_sim *sim, int index);
+void			destroy_dongles(t_sim *sim);
+
 
 // sim_utils.c
 int				sim_should_stop(t_sim *sim);
 void			sim_stop_simulation(t_sim *sim);
+void			cleanup_simulation(t_sim *sim, t_coder *coders);
+
+// sim_utils.c
+int				init_simulation(t_params params, t_sim *sim);
+void			init_counters(t_sim *sim);
+int				init_dongles(t_sim *sim);
+void			init_coders(t_coder *coders, t_params params, t_sim *sim);
 
 // priority_queue.c
 void			pq_push(t_queue *pq, t_queue_node node);

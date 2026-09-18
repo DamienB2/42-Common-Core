@@ -11,7 +11,8 @@ SRC = \
 	simulation.c \
 	priority_queue.c \
 	dongle.c \
-	sim_utils.c	
+	sim_utils.c	\
+	sim_init.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
