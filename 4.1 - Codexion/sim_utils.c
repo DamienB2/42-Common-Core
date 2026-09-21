@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 16:14:24 by demain            #+#    #+#             */
-/*   Updated: 2026/09/18 11:50:51 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/21 17:07:04 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,21 @@ void	cleanup_simulation(t_sim *sim, t_coder *coders)
 	destroy_dongles(sim);
 	free(sim->last_compile_start);
 	free(sim->nb_compiles_done);
+	pthread_mutex_destroy(&sim->counters_lock);
 	pthread_mutex_destroy(&sim->stop_lock);
 	pthread_mutex_destroy(&sim->print_lock);
 	free(coders);
+}
+
+void	print_state(t_coder *coder, char *state)
+{
+	pthread_mutex_lock(&coder->sim->print_lock);
+	if (!sim_should_stop(coder->sim))
+	{
+		printf("%ld %d %s\n",
+			get_sim_time(coder->sim->start_time),
+			coder->id,
+			state);
+	}
+	pthread_mutex_unlock(&coder->sim->print_lock);
 }

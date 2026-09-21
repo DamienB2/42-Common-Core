@@ -6,28 +6,11 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:16:39 by demain            #+#    #+#             */
-/*   Updated: 2026/09/17 11:01:47 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/21 17:20:04 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-void	init_dongle(t_dongle *dongle, int scheduler)
-{
-	dongle->taken = 0;
-	dongle->free_at = 0;
-	dongle->next_seq = 0;
-	dongle->queue.size = 0;
-	dongle->queue.scheduler = scheduler;
-	pthread_mutex_init(&dongle->lock, NULL);
-	pthread_cond_init(&dongle->cond, NULL);
-}
-
-void	destroy_dongle(t_dongle *dongle)
-{
-	pthread_mutex_destroy(&dongle->lock);
-	pthread_cond_destroy(&dongle->cond);
-}
 
 static int	dongle_ready(t_dongle *dongle, int id)
 {
@@ -37,7 +20,13 @@ static int	dongle_ready(t_dongle *dongle, int id)
 		&& get_time_ms() >= dongle->free_at);
 }
 
-void	take_dongle(t_dongle *dongle, int id, long deadline, t_sim *sim)
+void	destroy_dongle(t_dongle *dongle)
+{
+	pthread_mutex_destroy(&dongle->lock);
+	pthread_cond_destroy(&dongle->cond);
+}
+
+int	take_dongle(t_dongle *dongle, int id, long deadline, t_sim *sim)
 {
 	t_queue_node	node;
 
@@ -48,12 +37,15 @@ void	take_dongle(t_dongle *dongle, int id, long deadline, t_sim *sim)
 	pq_push(&dongle->queue, node);
 	while (!dongle_ready(dongle, id) && !sim_should_stop(sim))
 		pthread_cond_wait(&dongle->cond, &dongle->lock);
-	if (!sim_should_stop(sim))
+	if (sim_should_stop(sim))
 	{
-		pq_pop(&dongle->queue);
-		dongle->taken = 1;
+		pthread_mutex_unlock(&dongle->lock);
+		return (0);
 	}
+	pq_pop(&dongle->queue);
+	dongle->taken = 1;
 	pthread_mutex_unlock(&dongle->lock);
+	return (1);
 }
 
 void	release_dongle(t_dongle *dongle, int cooldown)
@@ -63,4 +55,18 @@ void	release_dongle(t_dongle *dongle, int cooldown)
 	dongle->free_at = get_time_ms() + cooldown;
 	pthread_cond_broadcast(&dongle->cond);
 	pthread_mutex_unlock(&dongle->lock);
+}
+
+void	wake_all_dongles(t_sim *sim)
+{
+	int	i;
+
+	i = 0;
+	while (i < sim->nb_dongles)
+	{
+		pthread_mutex_lock(&sim->dongles[i].lock);
+		pthread_cond_broadcast(&sim->dongles[i].cond);
+		pthread_mutex_unlock(&sim->dongles[i].lock);
+		i++;
+	}
 }

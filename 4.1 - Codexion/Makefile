@@ -11,7 +11,10 @@ SRC = \
 	simulation.c \
 	priority_queue.c \
 	dongle.c \
+	dongle_init.c \
 	sim_utils.c	\
+	sim_utils_2.c \
+	coder.c \
 	sim_init.c
 
 OBJ_DIR = obj

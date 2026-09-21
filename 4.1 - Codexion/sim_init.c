@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/18 11:44:45 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/18 11:53:38 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/21 14:01:25 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,24 @@
 
 int	init_simulation(t_params params, t_sim *sim)
 {
-	int	i;
-
 	sim->nb_coders = params.nb_coders;
 	sim->nb_dongles = params.nb_coders;
 	sim->nb_compiles_required = params.nb_compiles;
 	sim->stop = 0;
 	sim->scheduler = params.scheduler;
+	sim->burnout_t = params.burnout_t;
+	sim->dongle_cd = params.dongle_cd;
 	sim->start_time = get_time_ms();
 	if (pthread_mutex_init(&sim->print_lock, NULL) != 0)
 		return (0);
 	if (pthread_mutex_init(&sim->stop_lock, NULL) != 0)
 	{
+		pthread_mutex_destroy(&sim->print_lock);
+		return (0);
+	}
+	if (pthread_mutex_init(&sim->counters_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&sim->stop_lock);
 		pthread_mutex_destroy(&sim->print_lock);
 		return (0);
 	}
@@ -58,7 +64,7 @@ void	init_counters(t_sim *sim)
 	while (i < sim->nb_coders)
 	{
 		sim->last_compile_start[i] = sim->start_time;
-		sim->nb_compiles_done = 0;
+		sim->nb_compiles_done[i] = 0;
 		i++;
 	}
 }
@@ -71,7 +77,7 @@ int	init_dongles(t_sim *sim)
 	if (!sim->dongles)
 		return (0);
 	i = 0;
-	while (i < sim->dongles)
+	while (i < sim->nb_dongles)
 	{
 		init_dongle(&sim->dongles[i], sim->scheduler);
 		i++;
