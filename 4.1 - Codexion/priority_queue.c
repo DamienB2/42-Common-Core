@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:32:58 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/17 11:04:49 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/22 16:10:32 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	pq_higher_priority(t_queue_node *a, t_queue_node *b, int scheduler)
 	return (a->seq < b->seq);
 }
 
-// permet d'ajouter un codeur dans la file d'attente d'un dongle
 void	pq_push(t_queue *pq, t_queue_node node)
 {
 	if (pq->size == 0)
@@ -36,8 +35,6 @@ void	pq_push(t_queue *pq, t_queue_node node)
 	pq->size++;
 }
 
-// permet de pop le codeur qui prend le dongle 
-// pour le retirer de la file d'attente
 t_queue_node	pq_pop(t_queue *pq)
 {
 	t_queue_node	top;
@@ -49,11 +46,23 @@ t_queue_node	pq_pop(t_queue *pq)
 	return (top);
 }
 
-// Permet de donner l'id du codeur en tête de la file d'attente 
-// pour savoir si c'est son tour de prendre le dongle
 int	pq_peek_id(t_queue *pq)
 {
 	if (pq->size == 0)
 		return (-1);
 	return (pq->nodes[0].id);
+}
+
+void	pq_remove_id(t_queue *pq, int id)
+{
+	if (pq->size == 0)
+		return ;
+	if (pq->nodes[0].id == id)
+	{
+		pq->size--;
+		if (pq->size == 1)
+			pq->nodes[0] = pq->nodes[1];
+	}
+	else if (pq->size == 2 && pq->nodes[1].id == id)
+		pq->size--;
 }

@@ -15,7 +15,8 @@ SRC = \
 	sim_utils.c	\
 	sim_utils_2.c \
 	coder.c \
-	sim_init.c
+	sim_init.c \
+	monitor.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

@@ -61,6 +61,7 @@ typedef struct s_sim
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	stop_lock;
 	pthread_mutex_t	counters_lock;
+	pthread_t		monitor_thread;
 	long			start_time;
 	int				scheduler;
 	int				nb_coders;
@@ -108,17 +109,18 @@ int				start_coders(t_coder *coders, int nb_coders, t_sim *sim);
 void			assign_dongles(t_coder *coder, t_sim *sim, int index);
 void			destroy_dongles(t_sim *sim);
 
-// sim_utils.c
-int				sim_should_stop(t_sim *sim);
-void			sim_stop_simulation(t_sim *sim);
-void			cleanup_simulation(t_sim *sim, t_coder *coders);
-void			print_state(t_coder *coder, char *state);
-
 // sim_init.c
 int				init_simulation(t_params params, t_sim *sim);
 void			init_counters(t_sim *sim);
 int				init_dongles(t_sim *sim);
 void			init_coders(t_coder *coders, t_params params, t_sim *sim);
+
+// sim_utils.c
+int				sim_should_stop(t_sim *sim);
+void			sim_stop_simulation(t_sim *sim);
+void			cleanup_simulation(t_sim *sim, t_coder *coders);
+void			print_state(t_coder *coder, char *state);
+void			print_death(t_sim *sim, int id);
 
 // sim_utils_2.c
 void			set_last_compile_start(t_sim *sim, int index, long time);
@@ -126,10 +128,14 @@ long			get_last_compile_start(t_sim *sim, int index);
 void			increment_compiles_done(t_sim *sim, int index);
 int				all_compiles_done(t_sim *sim);
 
+// monitor.c
+void			*monitor_routine(void *arg);
+
 // priority_queue.c
 void			pq_push(t_queue *pq, t_queue_node node);
 t_queue_node	pq_pop(t_queue *pq);
 int				pq_peek_id(t_queue *pq);
+void			pq_remove_id(t_queue *pq, int id);
 
 // dongle.c
 void			destroy_dongle(t_dongle *dongle);

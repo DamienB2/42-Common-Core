@@ -54,11 +54,22 @@ int	start_coders(t_coder *coders, int nb_coders, t_sim *sim)
 	return (1);
 }
 
+static void	join_coders(t_coder *coders, int nb_coders)
+{
+	int	index;
+
+	index = 0;
+	while (index < nb_coders)
+	{
+		pthread_join(coders[index].thread, NULL);
+		index++;
+	}
+}
+
 int	simulation(t_params params)
 {
 	t_coder	*coders;
 	t_sim	sim;
-	int		i;
 
 	if (!init_simulation(params, &sim))
 		return (0);
@@ -74,12 +85,19 @@ int	simulation(t_params params)
 		cleanup_simulation(&sim, coders);
 		return (0);
 	}
-	i = 0;
-	while (i < params.nb_coders)
+	if (pthread_create(&sim.monitor_thread, NULL,
+			monitor_routine, &sim) != 0)
 	{
-		pthread_join(coders[i].thread, NULL);
-		i++;
+		sim_stop_simulation(&sim);
+		wake_all_dongles(&sim);
+		join_coders(coders, params.nb_coders);
+		cleanup_simulation(&sim, coders);
+		return (0);
 	}
+	join_coders(coders, params.nb_coders);
+	sim_stop_simulation(&sim);
+	wake_all_dongles(&sim);
+	pthread_join(sim.monitor_thread, NULL);
 	cleanup_simulation(&sim, coders);
 	return (1);
 }

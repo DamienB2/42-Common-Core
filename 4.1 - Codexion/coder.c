@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coder.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demain <demain@student.42belgium.be>       +#+  +:+       +#+        */
+/*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 16:12:59 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/21 21:54:08 by demain           ###   #######belgium.be */
+/*   Updated: 2026/09/22 19:17:58 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ static void	get_dongles_order(t_coder *coder,
 		*first = coder->left_dongle;
 		*second = coder->right_dongle;
 	}
-}
-
-static void	release_both_dongles(t_coder *coder)
-{
-	release_dongle(coder->left_dongle, coder->sim->dongle_cd);
-	release_dongle(coder->right_dongle, coder->sim->dongle_cd);
 }
 
 static int	take_both_dongles(t_coder *coder)
@@ -98,7 +92,8 @@ void	*coder_routine(void *arg)
 		if (!take_both_dongles(coder))
 			break ;
 		coder_compile(coder);
-		release_both_dongles(coder);
+		release_dongle(coder->left_dongle, coder->sim->dongle_cd);
+		release_dongle(coder->right_dongle, coder->sim->dongle_cd);
 		if (finish_compile(coder))
 			break ;
 		if (sim_should_stop(coder->sim))

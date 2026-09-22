@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:16:39 by demain            #+#    #+#             */
-/*   Updated: 2026/09/21 17:20:04 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/22 16:12:16 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	take_dongle(t_dongle *dongle, int id, long deadline, t_sim *sim)
 		pthread_cond_wait(&dongle->cond, &dongle->lock);
 	if (sim_should_stop(sim))
 	{
+		pq_remove_id(&dongle->queue, id);
+		pthread_cond_broadcast(&dongle->cond);
 		pthread_mutex_unlock(&dongle->lock);
 		return (0);
 	}

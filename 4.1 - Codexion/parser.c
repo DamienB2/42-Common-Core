@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:24:26 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/17 11:04:44 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/22 19:15:20 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 #include "codexion.h"
@@ -92,7 +92,6 @@ int	atoi_and_set(char *argv[], t_params	*params)
 	return (1);
 }
 
-//a.out 4 200 200 200 200 3 200 fifo
 int	parser(int argc, char *argv[], t_params	*params)
 {
 	if (argc != 9)
