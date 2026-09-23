@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 16:12:59 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/22 19:17:58 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/23 15:20:20 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ void	*coder_routine(void *arg)
 	t_coder	*coder;
 
 	coder = (t_coder *)arg;
-	if (coder->left_dongle == coder->right_dongle)
-		return (NULL);
 	while (!sim_should_stop(coder->sim))
 	{
 		if (!take_both_dongles(coder))
