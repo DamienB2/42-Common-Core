@@ -42,6 +42,7 @@ int	start_coders(t_coder *coders, int nb_coders, t_sim *sim)
 		{
 			sim_stop_simulation(sim);
 			wake_all_dongles(sim);
+			i--;
 			while (i >= 0)
 			{
 				pthread_join(coders[i].thread, NULL);
