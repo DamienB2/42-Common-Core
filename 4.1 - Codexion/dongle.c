@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:16:39 by demain            #+#    #+#             */
-/*   Updated: 2026/09/22 16:12:16 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/25 16:11:26 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,21 @@ void	destroy_dongle(t_dongle *dongle)
 	pthread_cond_destroy(&dongle->cond);
 }
 
+static void	build_wait_ts(struct timespec *ts, long wait_ms)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	ts->tv_sec = tv.tv_sec;
+	ts->tv_nsec = (tv.tv_usec * 1000) + (wait_ms * 1000000L);
+	ts->tv_sec += ts->tv_nsec / 1000000000L;
+	ts->tv_nsec %= 1000000000L;
+}
+
 int	take_dongle(t_dongle *dongle, int id, long deadline, t_sim *sim)
 {
 	t_queue_node	node;
+	struct timespec	ts;
 
 	pthread_mutex_lock(&dongle->lock);
 	node.id = id;
@@ -36,7 +48,10 @@ int	take_dongle(t_dongle *dongle, int id, long deadline, t_sim *sim)
 	node.deadline = deadline;
 	pq_push(&dongle->queue, node);
 	while (!dongle_ready(dongle, id) && !sim_should_stop(sim))
-		pthread_cond_wait(&dongle->cond, &dongle->lock);
+	{
+		build_wait_ts(&ts, 5);
+		pthread_cond_timedwait(&dongle->cond, &dongle->lock, &ts);
+	}
 	if (sim_should_stop(sim))
 	{
 		pq_remove_id(&dongle->queue, id);

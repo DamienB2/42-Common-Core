@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:24:26 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/22 19:15:20 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/25 16:17:22 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 #include "codexion.h"
@@ -58,7 +58,7 @@ static int	check_values(t_params *params)
 		printf("time values is incorrect\n");
 		return (0);
 	}
-	if (params->nb_compiles <= 0)
+	if (params->nb_compiles < 0)
 	{
 		printf("number_of_compiles_required is incorrect\n");
 		return (0);

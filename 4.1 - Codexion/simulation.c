@@ -72,6 +72,8 @@ int	simulation(t_params params)
 	t_coder	*coders;
 	t_sim	sim;
 
+	if (params.nb_compiles == 0)
+		return (1);
 	if (!init_simulation(params, &sim))
 		return (0);
 	coders = malloc(sizeof(t_coder) * params.nb_coders);
