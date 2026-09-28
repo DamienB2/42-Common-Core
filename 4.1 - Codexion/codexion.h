@@ -107,7 +107,6 @@ void			*coder_routine(void *arg);
 int				simulation(t_params params);
 int				start_coders(t_coder *coders, int nb_coders, t_sim *sim);
 void			assign_dongles(t_coder *coder, t_sim *sim, int index);
-void			destroy_dongles(t_sim *sim);
 
 // sim_init.c
 int				init_simulation(t_params params, t_sim *sim);
@@ -146,5 +145,6 @@ void			wake_all_dongles(t_sim *sim);
 
 // dongle_init.c
 void			init_dongle(t_dongle *dongle, int scheduler);
+void			destroy_dongles(t_sim *sim);
 
 #endif

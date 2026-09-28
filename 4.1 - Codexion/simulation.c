@@ -5,25 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/11 14:49:27 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/11 by dbaise           ###   #######belgium.be         */
+/*   Created: 2026/09/28 15:55:40 by dbaise            #+#    #+#             */
+/*   Updated: 2026/09/28 15:55:41 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "codexion.h"
-
-void	destroy_dongles(t_sim *sim)
-{
-	int	i;
-
-	i = 0;
-	while (i < sim->nb_dongles)
-	{
-		destroy_dongle(&sim->dongles[i]);
-		i++;
-	}
-	free(sim->dongles);
-}
 
 void	assign_dongles(t_coder *coder, t_sim *sim, int index)
 {
