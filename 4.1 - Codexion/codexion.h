@@ -100,8 +100,14 @@ int				ft_atoi(const char *nptr);
 long			get_time_ms(void);
 long			get_sim_time(long simulation_time);
 
-// codexion.c
+// coder.c
 void			*coder_routine(void *arg);
+
+// coder_actions.c
+void			coder_compile(t_coder *coder);
+void			coder_debug(t_coder *coder);
+void			coder_refactor(t_coder *coder);
+int				finish_compile(t_coder *coder);
 
 // simulation.c
 int				simulation(t_params params);

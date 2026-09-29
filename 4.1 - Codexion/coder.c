@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 16:12:59 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/23 15:20:20 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/29 13:41:35 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,38 +46,6 @@ static int	take_both_dongles(t_coder *coder)
 	}
 	print_state(coder, "has taken a dongle");
 	return (1);
-}
-
-static void	coder_compile(t_coder *coder)
-{
-	set_last_compile_start(coder->sim,
-		coder->id - 1, get_time_ms());
-	print_state(coder, "is compiling");
-	usleep(coder->compile_t * 1000);
-}
-
-static void	coder_debug(t_coder *coder)
-{
-	print_state(coder, "is debugging");
-	usleep(coder->debug_t * 1000);
-}
-
-static void	coder_refactor(t_coder *coder)
-{
-	print_state(coder, "is refactoring");
-	usleep(coder->refactor_t * 1000);
-}
-
-static int	finish_compile(t_coder *coder)
-{
-	increment_compiles_done(coder->sim, coder->id - 1);
-	if (all_compiles_done(coder->sim))
-	{
-		sim_stop_simulation(coder->sim);
-		wake_all_dongles(coder->sim);
-		return (1);
-	}
-	return (0);
 }
 
 void	*coder_routine(void *arg)

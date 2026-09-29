@@ -6,10 +6,9 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 15:55:40 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/28 15:55:41 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/29 13:38:03 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "codexion.h"
 
@@ -26,7 +25,8 @@ int	start_coders(t_coder *coders, int nb_coders, t_sim *sim)
 	i = 0;
 	while (i < nb_coders)
 	{
-		if (pthread_create(&coders[i].thread, NULL, coder_routine, &coders[i]) != 0)
+		if (pthread_create(
+				&coders[i].thread, NULL, coder_routine, &coders[i]) != 0)
 		{
 			sim_stop_simulation(sim);
 			wake_all_dongles(sim);
@@ -71,17 +71,16 @@ int	simulation(t_params params)
 		return (0);
 	}
 	init_coders(coders, params, &sim);
-	if (!start_coders(coders, params.nb_coders, &sim))
+	if (pthread_create(&sim.monitor_thread, NULL,
+			monitor_routine, &sim) != 0)
 	{
 		cleanup_simulation(&sim, coders);
 		return (0);
 	}
-	if (pthread_create(&sim.monitor_thread, NULL,
-			monitor_routine, &sim) != 0)
+	if (!start_coders(coders, params.nb_coders, &sim))
 	{
 		sim_stop_simulation(&sim);
-		wake_all_dongles(&sim);
-		join_coders(coders, params.nb_coders);
+		pthread_join(sim.monitor_thread, NULL);
 		cleanup_simulation(&sim, coders);
 		return (0);
 	}

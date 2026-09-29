@@ -15,6 +15,7 @@ SRC = \
 	sim_utils.c	\
 	sim_utils_2.c \
 	coder.c \
+	coder_actions.c \
 	sim_init.c \
 	monitor.c
 

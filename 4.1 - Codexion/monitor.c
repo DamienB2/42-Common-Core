@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/22 19:23:41 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/22 19:30:39 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/29 14:16:02 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	find_dead_coder(t_sim *sim)
 {
 	int		index;
 	int		id;
-	long 	now;
+	long	now;
 
 	pthread_mutex_lock(&sim->counters_lock);
 	now = get_time_ms();
@@ -34,7 +34,6 @@ static int	find_dead_coder(t_sim *sim)
 	pthread_mutex_unlock(&sim->counters_lock);
 	return (id);
 }
-
 
 void	*monitor_routine(void *arg)
 {
