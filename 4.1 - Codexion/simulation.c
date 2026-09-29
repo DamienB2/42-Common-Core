@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 15:55:40 by dbaise            #+#    #+#             */
-/*   Updated: 2026/09/29 13:38:03 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/09/29 20:20:54 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,20 @@ int	start_coders(t_coder *coders, int nb_coders, t_sim *sim)
 	return (1);
 }
 
-static void	join_coders(t_coder *coders, int nb_coders)
+static void	join_and_cleanup(t_sim *sim, t_coder *coders, t_params params)
 {
 	int	index;
 
 	index = 0;
-	while (index < nb_coders)
+	while (index < params.nb_coders)
 	{
 		pthread_join(coders[index].thread, NULL);
 		index++;
 	}
+	sim_stop_simulation(sim);
+	wake_all_dongles(sim);
+	pthread_join(sim->monitor_thread, NULL);
+	cleanup_simulation(sim, coders);
 }
 
 int	simulation(t_params params)
@@ -66,28 +70,17 @@ int	simulation(t_params params)
 		return (0);
 	coders = malloc(sizeof(t_coder) * params.nb_coders);
 	if (!coders)
-	{
-		cleanup_simulation(&sim, NULL);
-		return (0);
-	}
+		return (cleanup_simulation(&sim, NULL), 0);
 	init_coders(coders, params, &sim);
 	if (pthread_create(&sim.monitor_thread, NULL,
 			monitor_routine, &sim) != 0)
-	{
-		cleanup_simulation(&sim, coders);
-		return (0);
-	}
+		return (cleanup_simulation(&sim, coders), 0);
 	if (!start_coders(coders, params.nb_coders, &sim))
 	{
 		sim_stop_simulation(&sim);
 		pthread_join(sim.monitor_thread, NULL);
-		cleanup_simulation(&sim, coders);
-		return (0);
+		return (cleanup_simulation(&sim, coders), 0);
 	}
-	join_coders(coders, params.nb_coders);
-	sim_stop_simulation(&sim);
-	wake_all_dongles(&sim);
-	pthread_join(sim.monitor_thread, NULL);
-	cleanup_simulation(&sim, coders);
+	join_and_cleanup(&sim, coders, params);
 	return (1);
 }
