@@ -1,0 +1,1 @@
+pour faire passer de fifo a lifo il faut aller inverser le signe dans priority_queue
