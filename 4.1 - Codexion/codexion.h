@@ -99,6 +99,7 @@ int				ft_atoi(const char *nptr);
 // time_helper.c
 long			get_time_ms(void);
 long			get_sim_time(long simulation_time);
+void			build_wait_ts(struct timespec *ts, long wait_ms);
 
 // coder.c
 void			*coder_routine(void *arg);
