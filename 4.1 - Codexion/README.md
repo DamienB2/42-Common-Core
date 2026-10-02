@@ -111,7 +111,7 @@ The comparison is implemented in `pq_higher_priority` (`priority_queue.c`). Sinc
  
 When a coder releases a dongle, `release_dongle` stores `free_at = now + dongle_cooldown` and clears the `taken` flag. A dongle is only granted when it is not taken **and** `now >= free_at`.
  
-Nobody signals the end of a cooldown, so waiting coders use `pthread_cond_timedwait` with a 5 ms timeout and re-evaluate the condition at each wake-up. A release also broadcasts the condition variable so that waiters can react immediately when the cooldown is `0`.
+Nobody signals the end of a cooldown. A coder that is at the head of the queue while the dongle is free but still cooling down therefore releases the dongle's mutex, sleeps 500 µs, then re-checks the condition. In every other case (dongle taken, or not first in the queue) the coder waits on `pthread_cond_wait` and is woken by a broadcast. A release also broadcasts the condition variable so that waiters can react immediately when the cooldown is `0`.
  
 ### Precise burnout detection
  
@@ -145,12 +145,22 @@ No global variable is used: everything is reached through the `t_sim` structure 
  
 ### How race conditions are prevented
  
-- **A dongle can never be duplicated.** `take_dongle` locks the dongle, pushes the request, waits on the condition variable until `dongle_ready` is true, then sets `taken = 1` before unlocking. The test and the update happen inside the same critical section, so two coders cannot both see the dongle as free.
+- **A dongle can never be duplicated.** 
+`take_dongle` locks the dongle, pushes the request, waits until `dongle_ready` is true, then sets `taken = 1` before unlocking. The test and the update happen inside the same critical section, so two coders cannot both see the dongle as free. While waiting, a coder uses `pthread_cond_wait` (woken up by the broadcasts of `release_dongle`, `take_dongle` and `wake_all_dongles`). The only case where nobody will send a signal is the end of a cooldown: a coder that is at the head of the queue, with the dongle free, then releases the mutex, sleeps 500 µs and re-checks the condition.
 ```c
   pthread_mutex_lock(&dongle->lock);
   pq_push(&dongle->queue, node);
   while (!dongle_ready(dongle, id) && !sim_should_stop(sim))
-      pthread_cond_timedwait(&dongle->cond, &dongle->lock, &ts);
+  {
+      if (pq_peek_id(&dongle->queue) == id && !dongle->taken)
+      {
+          pthread_mutex_unlock(&dongle->lock);
+          usleep(500);
+          pthread_mutex_lock(&dongle->lock);
+      }
+      else
+          pthread_cond_wait(&dongle->cond, &dongle->lock);
+  }
   ...
   dongle->taken = 1;
   pthread_mutex_unlock(&dongle->lock);

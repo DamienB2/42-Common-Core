@@ -99,7 +99,6 @@ int				ft_atoi(const char *nptr);
 // time_helper.c
 long			get_time_ms(void);
 long			get_sim_time(long simulation_time);
-void			build_wait_ts(struct timespec *ts, long wait_ms);
 
 // coder.c
 void			*coder_routine(void *arg);
@@ -144,7 +143,6 @@ int				pq_peek_id(t_queue *pq);
 void			pq_remove_id(t_queue *pq, int id);
 
 // dongle.c
-void			destroy_dongle(t_dongle *dongle);
 int				take_dongle(t_dongle *dongle,
 					int id, long deadline, t_sim *sim);
 void			release_dongle(t_dongle *dongle, int cooldown);
@@ -153,5 +151,6 @@ void			wake_all_dongles(t_sim *sim);
 // dongle_init.c
 void			init_dongle(t_dongle *dongle, int scheduler);
 void			destroy_dongles(t_sim *sim);
+void			destroy_dongle(t_dongle *dongle);
 
 #endif
