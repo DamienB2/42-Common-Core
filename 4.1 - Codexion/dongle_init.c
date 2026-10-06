@@ -6,7 +6,7 @@
 /*   By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 13:33:53 by dbaise            #+#    #+#             */
-/*   Updated: 2026/10/02 17:53:45 by dbaise           ###   #######belgium.be */
+/*   Updated: 2026/10/06 11:28:08 by dbaise           ###   #######belgium.be */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	init_dongle(t_dongle *dongle, int scheduler)
 	pthread_cond_init(&dongle->cond, NULL);
 }
 
-//faire en sorte que destroy dongle se passe dans 
-//sim_utils pour avoir la possibilité de déplacer les fonctions de dongle.c ici
 void	destroy_dongles(t_sim *sim)
 {
 	int	i;
