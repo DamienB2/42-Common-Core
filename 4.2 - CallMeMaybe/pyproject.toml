@@ -1,0 +1,24 @@
+[project]
+name = "callmemaybe"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "dbaise", email = "dbaise@student.42belgium.be" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.2.6",
+    "pydantic>=2.13.5",
+    "llm-sdk"
+]
+
+[tool.uv.sources]
+llm-sdk = { path = "llm_sdk" }
+
+[project.scripts]
+callmemaybe = "callmemaybe:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
