@@ -1,5 +1,6 @@
 import argparse, json, sys
 import numpy as np
+import time
 from typing import Any
 from pathlib import Path
 from pydantic import ValidationError, TypeAdapter
@@ -54,6 +55,53 @@ def generate_string_value(model: Small_LLM_Model, prefix_text: str, max_tokens: 
     return model.decode(generated)
 
 
+def load_vocab(model: Small_LLM_Model) -> dict[int, str]:
+    with open(model.get_path_to_vocab_file()) as file:
+        raw = json.load(file)
+    return {token_id: token.replace("Ġ", " ") for token, token_id in raw.items()}
+
+
+def best_allowed(logits: list[float], allowed: np.ndarray) -> int:
+    scores = np.asarray(logits)[allowed]
+    return int(allowed[np.argmax(scores)])
+
+
+def build_prompt(functions: list[FunctionDefinition], request: str) -> str:
+    lines = ["Available functions:"]
+    for func in functions:
+        params = ", ".join(f"{name}: {definition.type}" for name, definition in func.parameters.items())
+        lines.append(f"- {func.name}({params}): {func.description}")
+    lines.append("")
+    lines.append(f"Request: {request}")
+    lines.append('Answer: {"name": "')
+    return "\n".join(lines)
+
+
+def build_params_prefix(func: FunctionDefinition) -> str:
+    return f'{func.name}", "parameters": {{'
+
+
+def choose_function(model: Small_LLM_Model, vocab: dict[int, str], names: list[str], prompt: str) -> str:
+    candidates = {token_id: text for token_id, text in vocab.items() if text and any(text in name for name in names)}
+    quote_id = int(model.encode('"')[0][0].item())
+    input_ids = model.encode(prompt)[0].tolist()
+    generated = ""
+
+    for _ in range(32):
+        logits = model.get_logits_from_input_ids(input_ids)
+        allowed = [token_id for token_id, text in candidates.items() if any(name.startswith(generated + text) for name in names)]
+
+        if generated in names:
+            allowed.append(quote_id)
+
+        next_id = best_allowed(logits, np.array(allowed, dtype=np.int64))
+        if next_id == quote_id:
+            return generated
+        generated += candidates[next_id]
+        input_ids.append(next_id)
+
+    return generated
+
 def main() -> int:
     args = parse_arguments()
     errors: list[str] = []
@@ -91,10 +139,16 @@ def main() -> int:
     print(f"Loaded {len(validated_functions)} functions"
           f" and {len(validated_prompts)} prompts.")
 
-    print(validated_functions[0].description)
-    print(generate_string_value(llm, validated_prompts[0].prompt))
+    vocab = load_vocab(llm)
+    names = [func.name for func in validated_functions]
 
-    #uv run --env-file .env python -m src
+    start = time.time()
+    for item in validated_prompts:
+        prompt = build_prompt(validated_functions, item.prompt)
+        chosen = choose_function(llm, vocab, names, prompt)
+        print(f"{item.prompt!r} -> {chosen}")
+    print(f"Done in {time.time() - start:.1f}s")
+
     return 0
 
 
