@@ -1,40 +1,9 @@
-import argparse, json, sys
+import json, sys
 import numpy as np
 import time
-from typing import Any
-from pathlib import Path
-from pydantic import ValidationError, TypeAdapter
-from src.models import PromptInput, FunctionDefinition
 from llm_sdk import Small_LLM_Model
-
-
-def parse_arguments() -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--functions_definition",
-        type=Path,
-        default=Path("data/input/functions_definition.json")
-    )
-
-    parser.add_argument(
-        "--input",
-        type=Path,
-        default=Path("data/input/function_calling_tests.json")
-    )
-
-    parser.add_argument(
-        "--output",
-        type=Path,
-        default=Path("data/output/function_calls.json")
-    )
-
-    return parser.parse_args()
-
-
-def load_json(path: Path) -> Any:
-    with path.open("r") as file:
-        return json.load(file)
+from src.models import FunctionDefinition
+from src.parser import parse_arguments, load_json, validate_prompt_and_function
 
 
 def generate_string_value(model: Small_LLM_Model, prefix_text: str, max_tokens: int = 64) -> str:
@@ -102,9 +71,9 @@ def choose_function(model: Small_LLM_Model, vocab: dict[int, str], names: list[s
 
     return generated
 
+
 def main() -> int:
     args = parse_arguments()
-    errors: list[str] = []
 
     try:
         function_definitions = load_json(args.functions_definition)
@@ -119,20 +88,10 @@ def main() -> int:
         print(f"Error: cannot read file: {error}", file=sys.stderr)
         return 1
 
-    try:
-        validated_prompts = TypeAdapter(list[PromptInput]).validate_python(prompts)
-    except ValidationError as error:
-        errors.append(f"invalid prompts file:\n{error}")
-
-    try:
-        validated_functions = TypeAdapter(list[FunctionDefinition]).validate_python(function_definitions)
-    except ValidationError as error:
-        errors.append(f"invalid functions file:\n{error}")
-
-    if errors:
-        for message in errors:
-            print(f"Error: {message}", file=sys.stderr)
+    result = validate_prompt_and_function(function_definitions, prompts)
+    if result is None:
         return 1
+    validated_functions, validated_prompts = result
 
     llm = Small_LLM_Model()
 
