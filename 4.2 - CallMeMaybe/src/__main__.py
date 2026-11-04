@@ -6,24 +6,6 @@ from src.models import FunctionDefinition
 from src.parser import parse_arguments, load_json, validate_prompt_and_function
 
 
-def generate_string_value(model: Small_LLM_Model, prefix_text: str, max_tokens: int = 64) -> str:
-    input_ids = model.encode(prefix_text)[0].tolist()
-    generated = []
-
-    for _ in range(max_tokens):
-        logits = model.get_logits_from_input_ids(input_ids)
-        next_id = int(np.argmax(logits))
-        token_text = model.decode([next_id])
-        
-        if '"' in token_text:
-            last_token = token_text.split('"')[0]
-            return model.decode(generated) + last_token
-            
-        input_ids.append(next_id)
-        generated.append(next_id)
-    return model.decode(generated)
-
-
 def load_vocab(model: Small_LLM_Model) -> dict[int, str]:
     with open(model.get_path_to_vocab_file()) as file:
         raw = json.load(file)
@@ -44,10 +26,6 @@ def build_prompt(functions: list[FunctionDefinition], request: str) -> str:
     lines.append(f"Request: {request}")
     lines.append('Answer: {"name": "')
     return "\n".join(lines)
-
-
-def build_params_prefix(func: FunctionDefinition) -> str:
-    return f'{func.name}", "parameters": {{'
 
 
 def choose_function(model: Small_LLM_Model, vocab: dict[int, str], names: list[str], prompt: str) -> str:
@@ -75,6 +53,7 @@ def choose_function(model: Small_LLM_Model, vocab: dict[int, str], names: list[s
 def main() -> int:
     args = parse_arguments()
 
+    # check for errors in the differents files we gonna use
     try:
         function_definitions = load_json(args.functions_definition)
         prompts = load_json(args.input)
@@ -88,15 +67,13 @@ def main() -> int:
         print(f"Error: cannot read file: {error}", file=sys.stderr)
         return 1
 
+    # call for a pydantic check to be sure the files contains all correct value types
     result = validate_prompt_and_function(function_definitions, prompts)
     if result is None:
         return 1
     validated_functions, validated_prompts = result
 
     llm = Small_LLM_Model()
-
-    print(f"Loaded {len(validated_functions)} functions"
-          f" and {len(validated_prompts)} prompts.")
 
     vocab = load_vocab(llm)
     names = [func.name for func in validated_functions]

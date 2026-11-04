@@ -15,3 +15,9 @@ class FunctionDefinition(BaseModel):
     description: str
     parameters: dict[str, TypeDefinition]
     returns: TypeDefinition
+
+
+class FunctionCall(BaseModel):
+    prompt: str
+    name: str
+    parameters: dict[str, float | int | bool]
