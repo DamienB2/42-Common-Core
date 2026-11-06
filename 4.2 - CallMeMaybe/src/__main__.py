@@ -1,20 +1,15 @@
-import json, sys
+import json, sys, time, re
 import numpy as np
-import time
 from llm_sdk import Small_LLM_Model
 from src.models import FunctionDefinition
 from src.parser import parse_arguments, load_json, validate_prompt_and_function
+from src.generator import best_allowed, generate_number
 
 
 def load_vocab(model: Small_LLM_Model) -> dict[int, str]:
     with open(model.get_path_to_vocab_file()) as file:
         raw = json.load(file)
     return {token_id: token.replace("Ġ", " ") for token, token_id in raw.items()}
-
-
-def best_allowed(logits: list[float], allowed: np.ndarray) -> int:
-    scores = np.asarray(logits)[allowed]
-    return int(allowed[np.argmax(scores)])
 
 
 def build_prompt(functions: list[FunctionDefinition], request: str) -> str:
@@ -81,8 +76,17 @@ def main() -> int:
     start = time.time()
     for item in validated_prompts:
         prompt = build_prompt(validated_functions, item.prompt)
-        chosen = choose_function(llm, vocab, names, prompt)
-        print(f"{item.prompt!r} -> {chosen}")
+        func_name = choose_function(llm, vocab, names, prompt)
+
+        if func_name == "fn_add_numbers":
+            # On construit le début du JSON manuellement
+            prefix = prompt + func_name + '", "parameters": {"a": '
+            input_ids = llm.encode(prefix)[0].tolist()
+            
+            # On lance la génération contrainte (le paramètre 'a' est suivi d'une virgule)
+            val, updated_input_ids = generate_number(llm, vocab, input_ids, end_char=",")
+            print(f"{item.prompt!r} -> {func_name}, a={val}")
+        print(f"{item.prompt!r} -> {func_name}")
     print(f"Done in {time.time() - start:.1f}s")
 
     return 0

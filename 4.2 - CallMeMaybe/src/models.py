@@ -20,4 +20,4 @@ class FunctionDefinition(BaseModel):
 class FunctionCall(BaseModel):
     prompt: str
     name: str
-    parameters: dict[str, float | int | bool]
+    parameters: dict[str, str | float | bool]
