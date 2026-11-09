@@ -85,8 +85,15 @@ def generate_string(model: Small_LLM_Model, vocab: dict[int, str], input_ids: li
         logits = np.asarray(model.get_logits_from_input_ids(input_ids))
         next_id = int(allowed[np.argmax(logits[allowed])])
         text = vocab[next_id]
+        if not generated:
+            text = text.lstrip(" ")
+            if not text:
+                input_ids.append(next_id)
+                continue
         if '"' in text:
-            generated += text.split('"')[0]
+            before = text.split('"')[0]
+            if before.strip():
+                generated += before
             break
         generated += text
         input_ids.append(next_id)
