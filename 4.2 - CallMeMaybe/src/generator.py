@@ -1,6 +1,6 @@
-import numpy as np
 import re
-from llm_sdk import Small_LLM_Model
+import numpy as np
+from llm_sdk import Small_LLM_Model  # type: ignore[attr-defined]
 
 
 def best_allowed(logits: list[float], allowed: np.ndarray) -> int:
@@ -16,16 +16,20 @@ def is_complete_number(text: str) -> bool:
     return bool(re.match(r"^-?\d+(\.\d+)?$", text))
 
 
-def generate_number(model: Small_LLM_Model, vocab: dict[int, str], input_ids: list[int], end_char: str) -> tuple[float, list[int]]:
+def generate_number(model: Small_LLM_Model, vocab: dict[int, str],
+                    input_ids: list[int],
+                    end_char: str) -> tuple[float, list[int]]:
     end_id = int(model.encode(end_char)[0][0].item())
     generated = ""
 
-    number_candidate = {token_id: text for token_id, text in vocab.items() if text and is_number_prefix(text)}
+    number_candidate = {token_id: text for token_id, text in vocab.items()
+                        if text and is_number_prefix(text)}
 
     for _ in range(32):
         logits = model.get_logits_from_input_ids(input_ids)
 
-        allowed = [token_id for token_id, text in number_candidate.items() if is_number_prefix(generated + text)]
+        allowed = [token_id for token_id, text in number_candidate.items()
+                   if is_number_prefix(generated + text)]
 
         if is_complete_number(generated):
             allowed.append(end_id)
@@ -44,13 +48,16 @@ def generate_number(model: Small_LLM_Model, vocab: dict[int, str], input_ids: li
     return float(generated), input_ids
 
 
-def generate_boolean(model: Small_LLM_Model, vocab: dict[int, str], input_ids: list[int]) -> bool:
+def generate_boolean(model: Small_LLM_Model, vocab: dict[int, str],
+                     input_ids: list[int]) -> bool:
     generated = ""
     valid_targets = ["true", "false"]
 
     for _ in range(10):
         logits = model.get_logits_from_input_ids(input_ids)
-        allowed = [token_id for token_id, text in vocab.items() if text and any(target.startswith(generated + text) for target in valid_targets)]
+        allowed = [token_id for token_id, text in vocab.items()
+                   if text and any(target.startswith(generated + text)
+                                   for target in valid_targets)]
 
         if not allowed:
             break
@@ -66,20 +73,20 @@ def generate_boolean(model: Small_LLM_Model, vocab: dict[int, str], input_ids: l
 
 
 def build_string_ids(vocab: dict[int, str]) -> np.ndarray:
-    """Return ids of tokens usable inside a JSON string value."""
     ids = []
     for token_id, text in vocab.items():
         if not text or "\n" in text or "Ċ" in text:
             continue
-        
+
         if '"' in text and text.split('"')[0].endswith("\\"):
             continue
         ids.append(token_id)
     return np.array(ids, dtype=np.int64)
 
 
-def generate_string(model: Small_LLM_Model, vocab: dict[int, str], input_ids: list[int], allowed: np.ndarray, max_tokens: int = 64,
-) -> str:
+def generate_string(model: Small_LLM_Model, vocab: dict[int, str],
+                    input_ids: list[int], allowed: np.ndarray,
+                    max_tokens: int = 64,) -> str:
     generated = ""
     for _ in range(max_tokens):
         logits = np.asarray(model.get_logits_from_input_ids(input_ids))

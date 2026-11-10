@@ -1,4 +1,6 @@
-import argparse, json, sys
+import sys
+import json
+import argparse
 from typing import Any
 from pathlib import Path
 from pydantic import ValidationError, TypeAdapter
@@ -34,16 +36,21 @@ def load_json(path: Path) -> Any:
         return json.load(file)
 
 
-def validate_prompt_and_function(function_definitions: Any, prompts: Any) -> tuple[list[FunctionDefinition], list[PromptInput]] | None:
+def validate_prompt_and_function(
+        function_definitions: Any,
+        prompts: Any
+        ) -> tuple[list[FunctionDefinition], list[PromptInput]] | None:
     errors: list[str] = []
 
     try:
-        validated_prompts = TypeAdapter(list[PromptInput]).validate_python(prompts)
+        prompts_ok = TypeAdapter(
+            list[PromptInput]).validate_python(prompts)
     except ValidationError as error:
         errors.append(f"invalid prompts file:\n{error}")
 
     try:
-        validated_functions = TypeAdapter(list[FunctionDefinition]).validate_python(function_definitions)
+        functions_ok = TypeAdapter(
+            list[FunctionDefinition]).validate_python(function_definitions)
     except ValidationError as error:
         errors.append(f"invalid functions file:\n{error}")
 
@@ -52,5 +59,4 @@ def validate_prompt_and_function(function_definitions: Any, prompts: Any) -> tup
             print(f"Error: {message}", file=sys.stderr)
         return None
 
-    return validated_functions, validated_prompts
-        
+    return functions_ok, prompts_ok
