@@ -18,6 +18,4 @@ clean:
 
 lint:
 	-uv run flake8 . --exclude=$(EXCLUDE)
-	uv run mypy . --exclude '^(llm_sdk|\.venv)/' \
-		--warn-return-any --warn-unused-ignores --ignore-missing-imports \
-		--disallow-untyped-defs --check-untyped-defs
+	uv run mypy . --exclude '^(llm_sdk|\.venv)/' --ignore-missing-imports

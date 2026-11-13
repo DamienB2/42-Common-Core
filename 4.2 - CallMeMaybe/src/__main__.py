@@ -2,6 +2,7 @@ import json
 import sys
 import time
 import numpy as np
+from tqdm import tqdm
 from pathlib import Path
 from llm_sdk import Small_LLM_Model  # type: ignore[attr-defined]
 from pydantic import ValidationError
@@ -139,7 +140,7 @@ def main() -> int:
 
     start = time.time()
     try:
-        for item in validated_prompts:
+        for item in tqdm(validated_prompts, desc="Génération", unit="prompt"):
             prompt = build_prompt(validated_functions, item.prompt)
             func_name = choose_function(llm, vocab, names, prompt)
 
@@ -148,8 +149,7 @@ def main() -> int:
                 None,
             )
             if func_def is None:
-                print(f"Error: no function found for {item.prompt!r}",
-                      file=sys.stderr)
+                tqdm.write(f"Error: no function found for {item.prompt!r}")
                 continue
 
             try:
@@ -160,19 +160,16 @@ def main() -> int:
                     prompt=item.prompt, name=func_name, parameters=params
                 ))
             except (ValidationError, ValueError) as error:
-                print(f"Error: invalid result for {item.prompt!r}: {error}",
-                      file=sys.stderr)
+                tqdm.write(
+                    f"Error: invalid result for {item.prompt!r}: {error}"
+                    )
                 continue
-
-            print(f"{item.prompt!r}")
-            print(f" -> {func_name}({params})")
     except KeyboardInterrupt:
         print("\nInterrupted, saving partial results.", file=sys.stderr)
     finally:
-        print(f"Done in {time.time() - start:.1f}s")
+        print(f"All done in {time.time() - start:.1f}s")
         if not write_output(args.output, results):
             return 1
-
     return 0
 
 
