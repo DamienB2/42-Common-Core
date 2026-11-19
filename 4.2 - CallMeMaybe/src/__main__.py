@@ -6,7 +6,7 @@
 #    By: dbaise <dbaise@student.42belgium.be>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/16 16:59:56 by dbaise            #+#    #+#              #
-#    Updated: 2026/11/16 17:00:36 by dbaise           ###   #######belgium.be  #
+#    Updated: 2026/11/19 11:31:20 by dbaise           ###   #######belgium.be  #
 #                                                                              #
 # **************************************************************************** #
 import json
@@ -229,6 +229,11 @@ def main() -> int:
     if result is None:
         return 1
     validated_functions, validated_prompts = result
+
+    if not validated_functions:
+        print("Error: the functions definition file contains no function.",
+              file=sys.stderr)
+        return 1
 
     try:
         llm = Small_LLM_Model()

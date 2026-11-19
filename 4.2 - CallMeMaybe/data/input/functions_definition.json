@@ -43,11 +43,11 @@
     "description": "Calculate the square root of a number.",
     "parameters": {
       "a": {
-        "type": "integer"
+        "type": "number"
       }
     },
     "returns": {
-      "type": "integer"
+      "type": "number"
     }
   },
   {
